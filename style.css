@@ -1,0 +1,313 @@
+/* --- RESET E VARIÁVEIS --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --bg-color: #000000;       /* Fundo Preto */
+    --text-color: #ffffff;     /* Texto Branco */
+    --accent-color: #00d4ff;   /* Azul Tech */
+    --nav-bg: rgba(0, 0, 0, 0.95); /* Nav levemente transparente */
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- NAVBAR ESTILO GERAL --- */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--nav-bg);
+    z-index: 1000;
+    padding: 15px 0;
+    transition: top 0.4s ease-in-out; /* Suavidade ao subir/descer */
+}
+
+/* Classe para esconder a nav */
+header.hide-nav {
+    top: -100px; /* Joga a nav para fora da tela */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px; /* Ajuste conforme sua logo real */
+    display: block;
+}
+
+/* --- MENU DESKTOP VS MOBILE --- */
+.nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-list a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.nav-list a:hover {
+    color: var(--accent-color);
+}
+
+.menu-toggle {
+    display: none; /* Escondido no Desktop */
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+/* --- BOTÃO CONTATO (Estilo Tech) --- */
+.btn-contato {
+    background-color: var(--text-color);
+    color: var(--bg-color) !important;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-weight: bold !important;
+    transition: transform 0.2s;
+}
+
+/* --- ANIMAÇÃO DE PULSAR (Piscando lindamente) --- */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 212, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
+}
+
+.pulse-button {
+    animation: pulse 2s infinite;
+}
+
+/* --- WHATSAPP FLUTUANTE --- */
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    left: 20px; /* Lado esquerdo ou direito, conforme preferir */
+    background-color: #25d366;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    text-decoration: none;
+    z-index: 1001;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+/* --- BOTÃO VOLTAR AO TOPO --- */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 1001;
+    opacity: 0; /* Invisível inicialmente */
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.back-to-top.show-btn {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- HERO SECTION --- */
+#hero {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Ocupa 100% da altura da tela */
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    text-align: center;
+    color: var(--text-color);
+    margin-top: 0; /* Garante que comece do topo */
+    
+    /* IMAGEM DE FUNDO - Substitua 'bg-hero.jpg' pela sua imagem */
+    background: url('hero-bg.jpg') no-repeat center center/cover;
+    background-attachment: fixed; /* Efeito Parallax simples (imagem fixa ao rolar) */
+}
+
+/* Camada escura sobre a imagem (Overlay) */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.5));
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2; /* Fica acima do overlay */
+    max-width: 800px;
+    padding: 20px;
+    animation: fadeInUp 1s ease-out; /* Animação de entrada */
+}
+
+/* Badge decorativa */
+.badge-tech {
+    background-color: rgba(0, 212, 255, 0.1);
+    color: var(--accent-color);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid var(--accent-color);
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+/* Tipografia Hero */
+#hero h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+#hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color: #cccccc;
+    line-height: 1.6;
+}
+
+/* Botões da Hero */
+.hero-btns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap; /* Quebra linha no mobile se precisar */
+}
+
+.btn-hero {
+    text-decoration: none;
+    padding: 15px 35px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Botão Primário (Azul Tech) */
+.btn-hero.primary {
+    background-color: var(--accent-color);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+}
+
+.btn-hero.primary:hover {
+    background-color: #fff;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+}
+
+/* Botão Secundário (Transparente com borda) */
+.btn-hero.secondary {
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+.btn-hero.secondary:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+/* Animação de Entrada */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- RESPONSIVIDADE HERO (MOBILE) --- */
+@media (max-width: 768px) {
+    #hero h1 {
+        font-size: 2.2rem; /* Fonte menor no celular */
+    }
+
+    #hero p {
+        font-size: 1rem;
+    }
+
+    .hero-btns {
+        flex-direction: column; /* Botões um embaixo do outro */
+        gap: 15px;
+    }
+
+    .btn-hero {
+        width: 100%; /* Botão ocupa largura total no mobile */
+        text-align: center;
+    }
+}
+
+/* --- RESPONSIVIDADE (MOBILE) --- */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Mostra o hambúrguer */
+    }
+
+    .nav-list {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 100%;
+        height: 0;
+        background-color: var(--nav-bg);
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden; /* Esconde quando fechado */
+        transition: height 0.4s ease;
+        padding: 0;
+    }
+
+    /* Quando a classe 'active' for adicionada pelo JS */
+    .nav-list.active {
+        height: 350px; /* Altura do menu aberto */
+        padding: 20px 0;
+        border-bottom: 1px solid #333;
+    }
+
+    .nav-list li {
+        margin: 15px 0;
+    }
+}
