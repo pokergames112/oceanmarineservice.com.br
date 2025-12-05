@@ -102,7 +102,7 @@ nav {
 /* --- WHATSAPP FLUTUANTE --- */
 .whatsapp-float {
     position: fixed;
-    bottom: 75px;
+    bottom: 135px;
     left: 20px; /* Lado esquerdo ou direito, conforme preferir */
     background-color: #25d366;
     color: white;
@@ -121,7 +121,7 @@ nav {
 /* --- BOTÃO VOLTAR AO TOPO --- */
 .back-to-top {
     position: fixed;
-    bottom: 75px;
+    bottom: 135px;
     right: 20px;
     background-color: var(--accent-color);
     color: var(--bg-color);
@@ -155,7 +155,7 @@ nav {
     margin-top: 0; /* Garante que comece do topo */
     
     /* IMAGEM DE FUNDO - Substitua 'bg-hero.jpg' pela sua imagem */
-    background: url('img/Fundo\ hero.jpeg') no-repeat center center/cover;
+    background: url('img/Fundo\ hero.JPG') no-repeat center center/cover;
     background-attachment: fixed; /* Efeito Parallax simples (imagem fixa ao rolar) */
 }
 
@@ -414,7 +414,7 @@ nav {
     padding: 100px 0;
     
     /* IMAGEM DE FUNDO - Substitua 'bg-vision.jpg' pela sua imagem */
-    background: url('img/img\ Section\ 2.jpeg') no-repeat center center/cover;
+    background: url('img/Fundo\ 2.jpeg') no-repeat center center/cover;
 }
 
 /* Camada escura sobre a imagem (Overlay) */
@@ -609,7 +609,7 @@ nav {
     position: relative; 
     
     /* IMAGEM DE FUNDO - Substitua 'bg-testimonials.jpg' pela sua imagem */
-    background: url('bg-testimonials.jpg') no-repeat center center/cover;
+    background: url('img/navio\ tecnologia.JPG') no-repeat center center/cover;
     background-attachment: fixed; /* Efeito Parallax suave */
 }
 
@@ -855,6 +855,34 @@ developer-credit-link {
     /* Ajuste o filtro se a logo for escura sobre um fundo escuro */
 
     transition: opacity 0.3s;
+}
+
+/* --- ORDEM DOS ITENS NO RODAPÉ (MOBILE) --- */
+@media (max-width: 768px) {
+    /* 1. Mudar o alinhamento da div P para empilhar itens */
+    .footer-bottom p {
+        flex-direction: column; /* Empilha os itens verticalmente */
+        gap: 5px; /* Reduz o espaçamento entre itens empilhados */
+        text-align: center;
+    }
+
+    /* 2. Esconder o separador "|" */
+    .footer-bottom p .separator {
+        display: none;
+    }
+
+    /* 3. Definir a ordem dos itens (Default: 0) */
+    
+    /* A) Direitos Autorais em CIMA (Order -1 para forçar a subida) */
+    .footer-bottom p span:first-child {
+        order: -1; 
+        margin-bottom: 5px; 
+    }
+
+    /* B) Logo Promova em BAIXO (Order 1 para forçar a descida) */
+    .footer-bottom p .developer-credit-link {
+        order: 1; 
+    }
 }
 
 
