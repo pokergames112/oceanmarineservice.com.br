@@ -8,10 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const backToTopBtn = document.getElementById('backToTop');
     const scrollThreshold = 100;
     
-    // Elementos do Dropdown de Idioma
-    const langToggle = document.getElementById('lang-toggle');
-    const langDropdown = document.getElementById('language-dropdown');
-
     // Elementos do Cursor Customizado
     const cursorDot = document.getElementById('cursor-dot');
     const cursorCircle = document.getElementById('cursor-circle');
@@ -25,40 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.addEventListener('click', function() {
             navList.classList.toggle('active');
             
-            // Fecha o dropdown de idioma se o menu for aberto
-            if (langDropdown && langDropdown.classList.contains('open')) {
-                langDropdown.classList.remove('open');
-            }
+            // Não há mais dropdown de idioma para fechar aqui.
         });
     }
 
     // ---------------------------------------------
-    // 3. Lógica do Seletor de Idioma Dropdown (Novo Recurso)
-    // ---------------------------------------------
-    if (langToggle && langDropdown) {
-        langToggle.addEventListener('click', function(e) {
-            e.preventDefault(); // Evita que o link atualize a página imediatamente
-            e.stopPropagation(); // Impede que o clique seja detectado pelo 'document'
-            
-            // Alterna a classe 'open' no elemento language-selector
-            langDropdown.classList.toggle('open');
-            
-            // Fecha o menu mobile se o dropdown de idioma for aberto
-            if (navList && navList.classList.contains('active')) {
-                navList.classList.remove('active');
-            }
-        });
-        
-        // Fechar o dropdown de idioma se o usuário clicar fora dele
-        document.addEventListener('click', function(e) {
-            if (!langDropdown.contains(e.target)) {
-                langDropdown.classList.remove('open');
-            }
-        });
-    }
-
-    // ---------------------------------------------
-    // 4. Lógica de Scroll (Navbar some/aparece e Botão Topo)
+    // 3. Lógica de Scroll (Navbar some/aparece e Botão Topo)
     // ---------------------------------------------
     window.addEventListener('scroll', function() {
         let st = window.scrollY || document.documentElement.scrollTop;
@@ -66,9 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // A) Comportamento da Navbar (Esconder ao rolar para baixo)
         if (st > lastScrollTop && st > scrollThreshold) {
             header.classList.add('hide-nav');
-            // Fecha o menu mobile e o dropdown ao rolar
+            // Fecha o menu mobile ao rolar
             if (navList) navList.classList.remove('active');
-            if (langDropdown) langDropdown.classList.remove('open');
+            
+            // Linha removida: if (langDropdown) langDropdown.classList.remove('open');
+            
         } else if (st < lastScrollTop) {
             header.classList.remove('hide-nav');
         }
@@ -83,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ---------------------------------------------
-    // 5. Clique suave para voltar ao topo
+    // 4. Clique suave para voltar ao topo
     // ---------------------------------------------
     if (backToTopBtn) {
         backToTopBtn.addEventListener('click', function() {
@@ -95,30 +65,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ---------------------------------------------
-    // 6. LÓGICA DE SCROLL REVEAL (Usando IntersectionObserver para melhor performance)
+    // 5. LÓGICA DE SCROLL REVEAL (Usando IntersectionObserver)
     // ---------------------------------------------
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // Opcional: Desobservar após a primeira aparição para otimizar
                 // observer.unobserve(entry.target); 
             }
         });
     }, {
-        threshold: 0.1 // O objeto se torna visível quando 10% dele está na tela
+        threshold: 0.1
     });
 
     document.querySelectorAll('.scroll-reveal').forEach(section => {
         observer.observe(section);
     });
     
-    // Dispara uma verificação inicial para elementos já visíveis no carregamento
+    // Dispara uma verificação inicial na carga da página
     window.onload = () => document.querySelectorAll('.scroll-reveal').forEach(section => observer.observe(section));
 
 
     // ---------------------------------------------
-    // 7. LÓGICA DO CURSOR CUSTOMIZADO (DOT-AND-CIRCLE)
+    // 6. LÓGICA DO CURSOR CUSTOMIZADO (DOT-AND-CIRCLE)
     // ---------------------------------------------
     if (cursorDot && cursorCircle && window.innerWidth > 992) {
         let mouseX = 0, mouseY = 0;
@@ -130,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
             mouseX = e.clientX;
             mouseY = e.clientY;
             
-            // Move o DOT imediatamente
             cursorDot.style.left = `${mouseX}px`;
             cursorDot.style.top = `${mouseY}px`;
         });
