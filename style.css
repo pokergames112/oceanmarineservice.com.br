@@ -10,7 +10,7 @@
     --bg-color: #035a6b;      /* Fundo Preto */
     --text-color: #979646;    /* Texto Branco */
     --accent-color: #e0af48;  /* Azul Tech */
-    --nav-bg: rgba(0, 0, 0, 0.95); /* Nav levemente transparente */
+    --nav-bg: #035a6b; /* Nav levemente transparente */
 }
 
 body {
@@ -61,10 +61,70 @@ nav {
 
 /* Ajuste Desktop: Mover nav-list para esquerda */
 @media (min-width: 993px) {
+    .brand-name {
+        display: block;
+        position: absolute; /* Tira do fluxo */
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%); /* Centraliza exato no meio */
+        z-index: 1001;
+        
+        /* Seu tamanho definido para desktop */
+        font-size: 3rem; 
+    }
+}
+
+/* --- NOME DA MARCA CENTRALIZADO --- */
+.brand-name {
+    color: var(--text-color);
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    
+    /* Esconde por padrão */
+    display: none; 
+}
+
+/* Aplica a centralização APENAS no Desktop */
+@media (min-width: 993px) {
+    .brand-name {
+        display: block;
+        position: absolute; /* Tira do fluxo e posiciona */
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%); /* Centraliza exato no meio */
+        z-index: 1001; /* Garante que fique acima de tudo */
+        
+        /* Ajuste o tamanho da fonte para não conflitar com a lista */
+        font-size: 3rem; 
+    }
+    
+    /* REVISÃO: A lista de navegação (nav-list) estava sendo empurrada para a esquerda com margin-left: auto.
+       Se você quer o menu à direita e o nome da marca no centro absoluto, mantenha assim: */
+       
     .nav-list {
+        margin-left: auto; /* Empurra o menu para a direita */
+    }
+}
+
+@media (max-width: 992px){
+
+    .brand-name {
+        display: block; 
+        
+        /* Centraliza o elemento no espaço Flexbox entre a logo e os elementos da direita */
         margin-left: auto;
-        /* Espaço para o seletor de idioma com padding reduzido */
-        padding-right: 70px; 
+        margin-right: auto;
+        
+        /* Garante que não haja posicionamento absoluto */
+        position: static;
+        transform: none;
+        
+        /* Ajuste o tamanho da fonte para mobile para caber confortavelmente */
+        font-size: 1rem;
+        line-height: 1.2; /* Evita que o texto ocupe muito espaço vertical */
     }
 }
 
@@ -250,16 +310,18 @@ nav {
 #hero {
     position: relative;
     width: 100%;
+    /* Define 100% da altura da viewport para preenchimento total */
     height: 100vh;
     display: flex;
-    align-items: center; 
-    justify-content: center; 
+    align-items: center; /* Centraliza verticalmente o conteúdo */
+    justify-content: center; /* Centraliza horizontalmente o conteúdo */
     text-align: center;
     color: var(--text-color);
     margin-top: 0; 
     
-    background: url('img/fundo-hero.JPG') no-repeat center center/cover;
-    background-attachment: fixed;
+    /* Imagem de fundo e Parallax */
+    background: url('img/background-hero-section.jpg') no-repeat center center/cover;
+    background-attachment: fixed; /* Efeito Parallax */
 }
 
 /* Camada escura sobre a imagem (Overlay) */
@@ -269,6 +331,7 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
+    /* Gradiente suave de escuro (topo) para menos escuro (baixo) */
     background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.5));
     z-index: 1;
 }
@@ -278,7 +341,24 @@ nav {
     z-index: 2; 
     max-width: 800px;
     padding: 20px;
-    animation: fadeInUp 1s ease-out; 
+    animation: fadeInUp 1s ease-out; /* Animação de entrada */
+}
+
+/* --- NOVO ESTILO: LOGO NA HERO --- */
+.hero-logo {
+    /* Define o tamanho da logo no desktop */
+    height: 170px; 
+    width: auto;
+    
+    /* Centraliza e adiciona margem abaixo (pois hero-content já é text-align: center) */
+    display: block; 
+    margin: 0 auto 30px auto; 
+    
+    /* Efeito de brilho sutil (opcional) */
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+    
+    /* Garante que ela receba a animação de entrada */
+    animation: fadeInUp 1s ease-out 0.2s backwards; 
 }
 
 /* Badge decorativa */
@@ -364,6 +444,12 @@ nav {
 
 /* --- RESPONSIVIDADE HERO (MOBILE) --- */
 @media (max-width: 768px) {
+    
+    .hero-logo {
+        height: 90px; /* Reduz o tamanho da logo no mobile */
+        margin-bottom: 40px;
+    }
+    
     #hero h1 {
         font-size: 2.2rem; 
     }
@@ -707,8 +793,11 @@ nav {
 #testimonials {
     position: relative; 
     
-    background: url('img/navio\ tecnologia.JPG') no-repeat center center/cover;
-    background-attachment: fixed; 
+    /* DEFINIÇÃO DA IMAGEM DE FUNDO (Background com Parallax) */
+    /* ATENÇÃO: Verifique novamente se o caminho 'img/background-hero-section.jpg' está correto. */
+    background: url('img/background-hero-section.jpg') no-repeat center center/cover;
+    background-attachment: fixed; /* Efeito Parallax */
+    color: #fff; /* Garante que o texto dentro da seção seja branco */
 }
 
 /* Estilo do Overlay (Camada escura) */
@@ -718,7 +807,9 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9); 
+    
+    /* CORRIGIDO: Opacidade reduzida para 50% (0.5), revelando mais a imagem de fundo */
+    background: rgba(0, 0, 0, 0.5); 
     z-index: 1;
 }
 
@@ -734,16 +825,7 @@ nav {
     gap: 30px;
 }
 
-.testimonial-card {
-    position: relative;
-    z-index: 2;
-    background-color: rgba(13, 13, 13, 0.9); 
-    
-    padding: 35px;
-    border-radius: 8px;
-    border: 1px solid #1a1a1a;
-    transition: border-color 0.3s;
-}
+
 
 .testimonial-card:hover {
     border-color: var(--accent-color);
@@ -759,14 +841,15 @@ nav {
 .quote-text {
     font-size: 1rem;
     line-height: 1.7;
-    color: #ccc;
+    color: #ffffff;
     margin-bottom: 25px;
     font-style: italic;
 }
 
 .client-name {
     font-weight: 600;
-    color: var(--text-color);
+    /* Mantido em branco (herdado de #testimonials) */
+    color: var(--text-color); 
     margin-bottom: 2px;
 }
 
@@ -791,7 +874,7 @@ nav {
 /* --- SECTION 6: CTA FINAL --- */
 #final-cta {
     background-color: var(--accent-color); 
-    color: var(--bg-color);
+    color: var(--bg-color); /* A cor base do texto será escura */
     padding: 60px 0;
 }
 
@@ -799,9 +882,22 @@ nav {
     text-align: center;
 }
 
+/* NOVO: Estilo para o Nome da Marca na CTA */
+.cta-brand-name {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    margin-bottom: 5px; /* Espaço entre o nome e o H3 */
+    /* Usando a cor de fundo (preto) para destacar no fundo azul (accent-color) */
+    color: var(--bg-color); 
+}
+
 .cta-content h3 {
     font-size: 2rem;
     margin-bottom: 10px;
+    /* A cor será herdada de #final-cta (var(--bg-color)) */
 }
 
 .cta-content p {
@@ -825,8 +921,8 @@ nav {
 
 /* --- CORREÇÃO DO CURSOR SOBRE A CTA --- */
 
-/* Quando a SECTION #final-cta está em hover, ela força a cor do cursor para branco,
-    garantindo o contraste com o fundo azul (var(--accent-color)). */
+/* Quando a SECTION #final-cta está em hover, ela força a cor do cursor para preto,
+   garantindo o contraste com o fundo azul (var(--accent-color)). */
 #final-cta:hover ~ #cursor-dot, 
 #final-cta:hover ~ #cursor-circle {
     border-color: #000000; 
@@ -843,6 +939,12 @@ nav {
     #final-cta {
         padding: 40px 0;
     }
+    
+    .cta-brand-name {
+        font-size: 2rem;
+        letter-spacing: 3px;
+    }
+    
     .cta-content h3 {
         font-size: 1.5rem;
     }
@@ -874,10 +976,32 @@ footer {
     font-weight: 600;
 }
 
-.footer-logo {
-    margin-bottom: 15px;
-    height: 100px;
+/* --- NOVO: Wrapper para alinhar logo e nome da marca --- */
+.logo-and-name-wrapper {
+    display: flex; /* Habilita o Flexbox */
+    align-items: center; /* Alinha verticalmente a logo e o nome */
+    gap: 15px; /* Espaço entre a logo e o nome */
+    margin-bottom: 15px; /* Mantém a margem do antigo .footer-logo */
 }
+
+.footer-logo {
+    /* Diminuir a altura da logo para um alinhamento mais harmonioso */
+    height: 60px;
+    /* Remover a margem antiga, pois agora está no wrapper */
+    margin-bottom: 0; 
+}
+
+/* --- NOVO: Estilo para o nome da marca --- */
+.footer-brand-name {
+    color: var(--text-color); /* Branco ou a cor de destaque que você estiver usando para texto principal */
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* Garante que o texto se alinhe verticalmente com a logo */
+    line-height: 1.2;
+}
+
 
 /* Estilo para links e contato */
 .footer-col ul {
@@ -952,6 +1076,12 @@ footer {
 
 /* --- ORDEM DOS ITENS NO RODAPÉ (MOBILE) --- */
 @media (max-width: 768px) {
+    
+    /* Centraliza o novo wrapper no mobile */
+    .logo-and-name-wrapper {
+        justify-content: center;
+    }
+    
     /* MANTIDO: Direitos em CIMA, Logo em BAIXO */
     .footer-bottom p {
         flex-direction: column; 
@@ -972,11 +1102,8 @@ footer {
     .footer-bottom p .developer-credit-link {
         order: 1; 
     }
-}
 
-
-/* --- RESPONSIVIDADE FOOTER (MOBILE) --- */
-@media (max-width: 768px) {
+/* --- RESPONSIVIDADE FOOTER (Geral Mobile) --- */
     .footer-grid {
         grid-template-columns: 1fr; 
         text-align: center;
