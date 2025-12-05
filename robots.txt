@@ -1,0 +1,6 @@
+# Permite que todos os robôs de busca rastreiem o site
+User-agent: *
+Allow: /
+
+# Especifica a localização do seu sitemap com o domínio correto
+Sitemap: https://oceanmarineservice.com.br/sitemap.xml

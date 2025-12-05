@@ -913,27 +913,28 @@ footer {
 
 /* --- CURSOR CUSTOMIZADO (Ponto e Círculo) --- */
 
-/* Esconde o cursor padrão em todo o site */
+/* 1. Esconde o cursor padrão em todo o site (Seta invisível) */
 body {
-    cursor: none !important; 
+    cursor: default !important; 
 }
 
-/* Oculta o cursor padrão apenas sobre os elementos do cursor customizado (opcional, mas bom) */
+/* 2. Oculta o cursor customizado dos eventos do mouse */
 #cursor-dot, 
 #cursor-circle {
-    pointer-events: none; /* Garante que o cursor não interfira nos cliques */
+    /* CORREÇÃO CRÍTICA: Permite que o clique "passe" pelo cursor customizado */
+    pointer-events: none; 
 }
 
 /* 1. O Ponto (Dot) - O mais rápido */
 #cursor-dot {
     width: 6px;
     height: 6px;
-    background-color: var(--accent-color); /* Azul Tech */
+    background-color: var(--accent-color);
     border-radius: 50%;
-    position: fixed; /* Fixado na tela para seguir o mouse */
+    position: fixed;
     z-index: 9999; 
-    transform: translate(-50%, -50%); /* Centraliza o ponto */
-    transition: transform 0.1s ease-out; /* Transição muito rápida, para o dot seguir de perto */
+    transform: translate(-50%, -50%);
+    /* Removendo transição aqui, pois o movimento é direto via JS */
 }
 
 /* 2. O Círculo (Circle) - O que persegue (Trailing) */
@@ -943,29 +944,47 @@ body {
     border: 1px solid var(--accent-color);
     border-radius: 50%;
     position: fixed;
-    z-index: 9998; /* Fica abaixo do ponto */
-    transform: translate(-50%, -50%); /* Centraliza o círculo */
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Transição mais lenta para o efeito de perseguição */
-    
-    /* Inicialmente um pouco transparente */
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Transição suave */
     opacity: 0.8; 
 }
 
-/* Efeito Hover: O círculo reage a elementos clicáveis (opcional, mas recomendado) */
+/* --- CORREÇÃO DE USABILIDADE PARA ELEMENTOS CLICÁVEIS --- */
 a, button, .btn-hero, .service-card, .testimonial-card {
-    cursor: none !important; /* Esconde o cursor padrão em elementos clicáveis */
+    /* Exibe o cursor padrão de "MÃOZINHA" (pointer) */
+    cursor: pointer !important; 
 }
 
+/* Efeito Hover: O círculo reage a elementos clicáveis (animação) */
 a:hover ~ #cursor-circle,
 button:hover ~ #cursor-circle,
-.btn-hero:hover ~ #cursor-circle {
-    transform: translate(-50%, -50%) scale(1.5); /* Aumenta o círculo */
+.btn-hero:hover ~ #cursor-circle,
+.service-card:hover ~ #cursor-circle,
+.testimonial-card:hover ~ #cursor-circle {
+    transform: translate(-50%, -50%) scale(1.5); 
     opacity: 1;
-    background-color: rgba(0, 212, 255, 0.2); /* Fundo sutil */
+    background-color: rgba(0, 212, 255, 0.2); 
 }
 
 a:hover ~ #cursor-dot,
 button:hover ~ #cursor-dot,
-.btn-hero:hover ~ #cursor-dot {
-    background-color: #fff; /* O ponto fica branco/mais claro */
+.btn-hero:hover ~ #cursor-dot,
+.service-card:hover ~ #cursor-dot,
+.testimonial-card:hover ~ #cursor-dot {
+    background-color: #fff;
+}
+
+/* --- CORREÇÃO: DESATIVA CURSOR CUSTOMIZADO NO MOBILE/TABLET --- */
+@media (max-width: 992px) {
+    /* Garante que o cursor customizado seja ocultado */
+    #cursor-dot, 
+    #cursor-circle {
+        display: none !important;
+    }
+    
+    /* Muito Importante: Restaura o cursor padrão do sistema para toque */
+    body {
+        cursor: default !important;
+    }
 }
