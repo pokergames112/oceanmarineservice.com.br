@@ -7,9 +7,9 @@
 }
 
 :root {
-    --bg-color: #000000;       /* Fundo Preto */
-    --text-color: #ffffff;     /* Texto Branco */
-    --accent-color: #00d4ff;   /* Azul Tech */
+    --bg-color: #000000;      /* Fundo Preto */
+    --text-color: #ffffff;    /* Texto Branco */
+    --accent-color: #00d4ff;  /* Azul Tech */
     --nav-bg: rgba(0, 0, 0, 0.95); /* Nav levemente transparente */
 }
 
@@ -32,12 +32,12 @@ header {
     background-color: var(--nav-bg);
     z-index: 1000;
     padding: 15px 0;
-    transition: top 0.4s ease-in-out; /* Suavidade ao subir/descer */
+    transition: top 0.4s ease-in-out; 
 }
 
 /* Classe para esconder a nav */
 header.hide-nav {
-    top: -100px; /* Joga a nav para fora da tela */
+    top: -100px; 
 }
 
 nav {
@@ -47,7 +47,7 @@ nav {
 }
 
 .logo img {
-    height: 70px; /* Ajuste conforme sua logo real */
+    height: 70px; 
     display: block;
 }
 
@@ -57,6 +57,15 @@ nav {
     display: flex;
     align-items: center;
     gap: 25px;
+}
+
+/* Ajuste Desktop: Mover nav-list para esquerda */
+@media (min-width: 993px) {
+    .nav-list {
+        margin-left: auto;
+        /* Espaço para o seletor de idioma com padding reduzido */
+        padding-right: 70px; 
+    }
 }
 
 .nav-list a {
@@ -72,7 +81,7 @@ nav {
 }
 
 .menu-toggle {
-    display: none; /* Escondido no Desktop */
+    display: none; 
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--text-color);
@@ -99,6 +108,153 @@ nav {
     animation: pulse 2s infinite;
 }
 
+/* --- SELETOR DE IDIOMA (DROPDOWN) --- */
+
+.language-selector {
+    position: absolute; /* Posição absoluta para desktop */
+    right: 30px; 
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex; /* Garante que os filhos fiquem alinhados */
+    align-items: center;
+}
+
+/* Estilo para a bandeira/gatilho */
+.language-selector .lang-flag.active {
+    opacity: 1; /* Sempre visível */
+    transform: scale(1);
+    /* Adiciona um cursor de mãozinha para indicar que é clicável */
+    cursor: pointer; 
+}
+
+/* Container do Dropdown de Opções */
+.lang-options {
+    position: absolute;
+    top: 100%; /* Inicia logo abaixo do gatilho */
+    right: 0;
+    background-color: var(--nav-bg);
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 5px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    
+    /* Controle de visibilidade/altura */
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+/* Quando o JS adicionar a classe 'open', o dropdown aparece */
+.language-selector.open .lang-options {
+    max-height: 200px; /* Altura suficiente para as bandeiras */
+    opacity: 1;
+    visibility: visible;
+}
+
+.lang-options .lang-flag {
+    display: flex;
+    padding: 8px 15px;
+    opacity: 0.7; /* Opacidade padrão das opções */
+    transition: opacity 0.2s;
+}
+
+.lang-options .lang-flag:hover {
+    opacity: 1;
+    background-color: rgba(0, 212, 255, 0.1);
+}
+
+
+/* --- ESTILOS DE BANDEIRA --- */
+.lang-flag {
+    opacity: 0.5;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.flag-icon {
+    height: 1.25rem;
+    width: 1.8rem;
+    background-size: contain;
+    background-position: 50%;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    font-style: normal;
+}
+
+/* Estilo do ícone de seta (Chevron) */
+.language-caret {
+    font-size: 0.7rem; /* Tamanho pequeno e sutil */
+    color: #fff; /* ESTA É A COR! */
+    margin-left: 8px; 
+    transition: transform 0.3s ease;
+}
+
+/* --- RESPONSIVIDADE (MOBILE) --- */
+@media (max-width: 992px) {
+    /* Mobile: Seletor de Idioma entre Logo e Hambúrguer */
+    .language-selector {
+        position: static; 
+        margin-left: auto; 
+        margin-right: 15px; 
+        top: auto;
+        transform: none;
+    }
+    
+    /* Ajuste para garantir que o dropdown mobile não afete outros elementos */
+    .lang-options {
+        /* Posição relativa ao viewport, ou use fixed se quiser fora do fluxo */
+        position: absolute; 
+        right: 20px; 
+        top: 75px; 
+        /* Altera a direção para o mobile para aparecer à direita da nav */
+        /* width: max-content; */ 
+    }
+
+    /* Configuração do menu mobile */
+    .menu-toggle {
+        display: block; 
+    }
+
+    .nav-list {
+        position: absolute;
+        top: 70px;
+        right: 0;
+        width: 100%;
+        height: 0;
+        background-color: var(--nav-bg);
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden; 
+        transition: height 0.4s ease;
+        padding: 0;
+    }
+
+    .nav-list.active {
+        height: 600px; 
+        padding: 20px 0;
+        border-bottom: 1px solid #333;
+    }
+
+    .nav-list li {
+        margin: 15px 0;
+    }
+    
+    /* Outras correções de responsividade... */
+    .whatsapp-float {
+        bottom: 90px;
+        left: 10px; 
+    }
+    .back-to-top {
+        bottom: 90px;
+        right: 10px;
+    }
+}
+
+
+/* --- SEÇÕES ABAIXO (SEM ALTERAÇÕES SIGNIFICATIVAS) --- */
+/* (O restante do seu CSS original segue aqui...) */
 /* --- WHATSAPP FLUTUANTE --- */
 .whatsapp-float {
     position: fixed;
@@ -132,7 +288,7 @@ nav {
     cursor: pointer;
     font-size: 1.2rem;
     z-index: 1001;
-    opacity: 0; /* Invisível inicialmente */
+    opacity: 0; 
     visibility: hidden;
     transition: all 0.3s ease;
 }
@@ -146,17 +302,16 @@ nav {
 #hero {
     position: relative;
     width: 100%;
-    height: 100vh; /* Ocupa 100% da altura da tela */
+    height: 100vh;
     display: flex;
-    align-items: center; /* Centraliza verticalmente */
-    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; 
+    justify-content: center; 
     text-align: center;
     color: var(--text-color);
-    margin-top: 0; /* Garante que comece do topo */
+    margin-top: 0; 
     
-    /* IMAGEM DE FUNDO - Substitua 'bg-hero.jpg' pela sua imagem */
     background: url('img/Fundo\ hero.JPG') no-repeat center center/cover;
-    background-attachment: fixed; /* Efeito Parallax simples (imagem fixa ao rolar) */
+    background-attachment: fixed;
 }
 
 /* Camada escura sobre a imagem (Overlay) */
@@ -172,10 +327,10 @@ nav {
 
 .hero-content {
     position: relative;
-    z-index: 2; /* Fica acima do overlay */
+    z-index: 2; 
     max-width: 800px;
     padding: 20px;
-    animation: fadeInUp 1s ease-out; /* Animação de entrada */
+    animation: fadeInUp 1s ease-out; 
 }
 
 /* Badge decorativa */
@@ -212,7 +367,7 @@ nav {
     display: flex;
     gap: 20px;
     justify-content: center;
-    flex-wrap: wrap; /* Quebra linha no mobile se precisar */
+    flex-wrap: wrap; 
 }
 
 .btn-hero {
@@ -262,7 +417,7 @@ nav {
 /* --- RESPONSIVIDADE HERO (MOBILE) --- */
 @media (max-width: 768px) {
     #hero h1 {
-        font-size: 2.2rem; /* Fonte menor no celular */
+        font-size: 2.2rem; 
     }
 
     #hero p {
@@ -270,50 +425,50 @@ nav {
     }
 
     .hero-btns {
-        flex-direction: column; /* Botões um embaixo do outro */
+        flex-direction: column; 
         gap: 15px;
     }
 
     .btn-hero {
-        width: 100%; /* Botão ocupa largura total no mobile */
+        width: 100%; 
         text-align: center;
     }
 }
 
 /* --- UTILITÁRIOS GERAIS --- */
 .section-padding {
-    padding: 80px 0; /* Espaçamento padrão para todas as seções */
+    padding: 80px 0; 
 }
 
 /* --- SEÇÃO O QUE FAZEMOS / SOLUÇÕES --- */
 .solutions-grid {
     display: flex;
-    gap: 50px; /* Espaço entre as colunas */
+    gap: 50px; 
     align-items: center;
     text-align: left;
 }
 
 /* 1. Bloco de Texto */
 .text-block {
-    flex: 1; /* Ocupa metade do espaço */
+    flex: 1; 
     max-width: 550px;
 }
 
 .section-tag {
     /* Visual */
-    background-color: rgba(0, 212, 255, 0.1); /* Fundo sutilmente azul (10% de opacidade) */
-    border: 1px solid var(--accent-color); /* Borda fina azul para definição */
-    border-radius: 50px; /* Deixa o retângulo bem arredondado (estilo pill) */
+    background-color: rgba(0, 212, 255, 0.1); 
+    border: 1px solid var(--accent-color); 
+    border-radius: 50px; 
     
     /* Conteúdo */
-    color: var(--accent-color); /* Texto na cor Azul Tech */
+    color: var(--accent-color); 
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 7px 15px; /* Preenchimento interno para dar espaço */
-    margin-bottom: 20px; /* Espaço abaixo da tag para o H2 */
-    display: inline-block; /* Garante que o padding funcione e ele não ocupe 100% da largura */
+    padding: 7px 15px; 
+    margin-bottom: 20px; 
+    display: inline-block; 
 }
 
 
@@ -332,7 +487,7 @@ nav {
 
 /* 2. Bloco de Imagem */
 .image-block {
-    flex: 1; /* Ocupa a outra metade do espaço */
+    flex: 1; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -341,8 +496,8 @@ nav {
 .image-block img {
     max-width: 100%;
     height: auto;
-    border-radius: 10px; /* Borda leve */
-    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1); /* Sombra Tech suave */
+    border-radius: 10px; 
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1); 
 }
 
 /* Botão CTA na Seção */
@@ -351,7 +506,7 @@ nav {
     align-items: center;
     margin-top: 15px;
     padding: 12px 25px;
-    background-color: var(--accent-color); /* Fundo Azul Tech */
+    background-color: var(--accent-color); 
     color: var(--bg-color);
     text-decoration: none;
     font-weight: 600;
@@ -372,20 +527,20 @@ nav {
 /* --- RESPONSIVIDADE PARA MOBILE --- */
 @media (max-width: 992px) {
     .solutions-grid {
-        flex-direction: column; /* Coloca os blocos um em cima do outro */
+        flex-direction: column; 
         text-align: center;
     }
 
     .text-block, .image-block {
-        max-width: 100%; /* Ocupam 100% da largura */
+        max-width: 100%; 
     }
 
     .text-block {
-        order: 2; /* Texto fica em baixo no mobile */
+        order: 2; 
     }
     
     .image-block {
-        order: 1; /* Imagem fica em cima no mobile */
+        order: 1; 
         margin-bottom: 30px;
     }
     
@@ -394,7 +549,6 @@ nav {
     }
     
     .btn-cta-section {
-        /* Para centralizar o botão de forma mais fácil no mobile */
         display: block; 
         width: 80%;
         margin: 15px auto 0;
@@ -405,7 +559,7 @@ nav {
 #vision {
     position: relative;
     width: 100%;
-    min-height: 400px; /* Altura mínima para o impacto visual */
+    min-height: 400px; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -413,7 +567,6 @@ nav {
     color: var(--text-color);
     padding: 100px 0;
     
-    /* IMAGEM DE FUNDO - Substitua 'bg-vision.jpg' pela sua imagem */
     background: url('img/Fundo\ 2.jpeg') no-repeat center center/cover;
 }
 
@@ -424,7 +577,6 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Overlay mais escuro para o texto branco sobressair */
     background: rgba(0, 0, 0, 0.75); 
     z-index: 1;
 }
@@ -439,20 +591,20 @@ nav {
 /* Tag para contraste */
 .section-tag-light {
     /* Visual */
-    background-color: rgba(255, 255, 255, 0.1); /* Fundo sutilmente branco */
-    border: 1px solid #ffffff; /* Borda branca */
+    background-color: rgba(255, 255, 255, 0.1); 
+    border: 1px solid #ffffff; 
     border-radius: 50px;
     
     /* Conteúdo */
-    color: #fff; /* Texto branco */
+    color: #fff; 
     font-size: 0.8rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 2px;
     padding: 7px 15px;
-    margin-bottom: 25px; /* Ajuste o espaçamento conforme necessário */
+    margin-bottom: 25px; 
     display: inline-block;
-    opacity: 1; /* Remove a opacidade baixa que estava antes */
+    opacity: 1; 
 }
 
 .vision-content h3 {
@@ -479,12 +631,12 @@ nav {
 /* --- RESPONSIVIDADE SECTION 3 (MOBILE) --- */
 @media (max-width: 768px) {
     #vision {
-        min-height: 300px; /* Reduz um pouco a altura no mobile */
+        min-height: 300px; 
         padding: 60px 0;
     }
     
     .vision-content h3 {
-        font-size: 1.8rem; /* Redução da fonte */
+        font-size: 1.8rem; 
     }
 
     .vision-content p {
@@ -497,13 +649,13 @@ nav {
 /* 1. Animação de Flutuação (Subir e Descer) */
 @keyframes float-icon {
     0% {
-        transform: translateY(0); /* Posição inicial */
+        transform: translateY(0); 
     }
     50% {
-        transform: translateY(-5px); /* Move 5px para cima */
+        transform: translateY(-5px); 
     }
     100% {
-        transform: translateY(0); /* Volta para a posição inicial */
+        transform: translateY(0); 
     }
 }
 
@@ -528,13 +680,13 @@ nav {
 /* Grid Principal */
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 30px;
 }
 
 /* Estilo do Cartão de Serviço */
 .service-card {
-    background-color: #0d0d0d; /* Fundo levemente mais claro que o body */
+    background-color: #0d0d0d; 
     padding: 30px;
     border-radius: 8px;
     text-align: center;
@@ -550,9 +702,9 @@ nav {
 
 .icon-blue {
     font-size: 3rem;
-    color: var(--accent-color); /* Ícone na cor Tech Blue */
+    color: var(--accent-color); 
     margin-bottom: 20px;
-    display: inline-block; /* Necessário para aplicar a transformação translateY */
+    display: inline-block; 
     
     /* APLICAÇÃO DA ANIMAÇÃO */
     animation: float-icon 3s ease-in-out infinite;
@@ -589,13 +741,13 @@ nav {
 /* --- RESPONSIVIDADE SECTION 4 --- */
 @media (max-width: 992px) {
     .services-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 colunas em tablet */
+        grid-template-columns: repeat(2, 1fr); 
     }
 }
 
 @media (max-width: 600px) {
     .services-grid {
-        grid-template-columns: 1fr; /* 1 coluna em mobile */
+        grid-template-columns: 1fr; 
     }
     
     .text-center-heading h2 {
@@ -605,12 +757,10 @@ nav {
 
 /* --- SECTION 5: PROVA SOCIAL / DEPOIMENTOS --- */
 #testimonials {
-    /* Torna a seção um ponto de referência para o overlay */
     position: relative; 
     
-    /* IMAGEM DE FUNDO - Substitua 'bg-testimonials.jpg' pela sua imagem */
     background: url('img/navio\ tecnologia.JPG') no-repeat center center/cover;
-    background-attachment: fixed; /* Efeito Parallax suave */
+    background-attachment: fixed; 
 }
 
 /* Estilo do Overlay (Camada escura) */
@@ -620,7 +770,6 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Deixando-o bem escuro para o texto dos cards se destacar */
     background: rgba(0, 0, 0, 0.9); 
     z-index: 1;
 }
@@ -633,17 +782,15 @@ nav {
 
 .testimonials-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 30px;
 }
 
 .testimonial-card {
-    /* Regras de fundo e posição para se destacar da imagem de fundo */
     position: relative;
     z-index: 2;
-    background-color: rgba(13, 13, 13, 0.9); /* Fundo semi-transparente */
+    background-color: rgba(13, 13, 13, 0.9); 
     
-    /* Regras visuais */
     padding: 35px;
     border-radius: 8px;
     border: 1px solid #1a1a1a;
@@ -677,25 +824,25 @@ nav {
 
 .client-title {
     font-size: 0.85rem;
-    color: var(--accent-color); /* Título na cor Tech Blue */
+    color: var(--accent-color); 
 }
 
 /* --- RESPONSIVIDADE SECTION 5 --- */
 @media (max-width: 992px) {
     .testimonials-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 colunas em tablet */
+        grid-template-columns: repeat(2, 1fr); 
     }
 }
 
 @media (max-width: 768px) {
     .testimonials-grid {
-        grid-template-columns: 1fr; /* 1 coluna em mobile */
+        grid-template-columns: 1fr; 
     }
 }
 
 /* --- SECTION 6: CTA FINAL --- */
 #final-cta {
-    background-color: var(--accent-color); /* Fundo Azul Tech para impacto */
+    background-color: var(--accent-color); 
     color: var(--bg-color);
     padding: 60px 0;
 }
@@ -712,13 +859,13 @@ nav {
 .cta-content p {
     font-size: 1.1rem;
     margin-bottom: 30px;
-    color: #000; /* Texto preto sobre o fundo azul */
+    color: #000; 
 }
 
 /* Reajuste do Botão Primário para o Fundo Azul */
 .cta-content .btn-hero.primary {
-    background-color: var(--bg-color); /* Fundo preto */
-    color: var(--accent-color); /* Texto azul */
+    background-color: var(--bg-color); 
+    color: var(--accent-color); 
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
@@ -731,7 +878,7 @@ nav {
 /* --- CORREÇÃO DO CURSOR SOBRE A CTA --- */
 
 /* Quando a SECTION #final-cta está em hover, ela força a cor do cursor para branco,
-   garantindo o contraste com o fundo azul (var(--accent-color)). */
+    garantindo o contraste com o fundo azul (var(--accent-color)). */
 #final-cta:hover ~ #cursor-dot, 
 #final-cta:hover ~ #cursor-circle {
     border-color: #000000; 
@@ -758,7 +905,7 @@ nav {
 
 /* --- FOOTER --- */
 footer {
-    background-color: #000; /* Preto sólido */
+    background-color: #000; 
     color: #ccc;
     font-size: 0.95rem;
     padding-top: 50px;
@@ -766,7 +913,7 @@ footer {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1.5fr; /* Proporções para as colunas */
+    grid-template-columns: 2fr 1fr 1.5fr; 
     gap: 40px;
     padding-bottom: 40px;
     border-bottom: 1px solid #1a1a1a;
@@ -827,21 +974,19 @@ footer {
 
 /* Parte de Baixo (Direitos Autorais) */
 .footer-bottom p {
-    /* Garante que o texto de direitos autorais e o link estejam alinhados */
     display: flex;
     justify-content: center;
     align-items: center; 
-    gap: 8px; /* Espaçamento entre os elementos (texto, |, link) */
+    gap: 8px; 
 }
 
-developer-credit-link {
-    color: inherit; /* Herda a cor do texto do footer (geralmente branco) */
-    text-decoration: none; /* Remove o sublinhado */
+.developer-credit-link {
+    color: inherit; 
+    text-decoration: none; 
     
-    /* Garante que o texto e a logo dentro do link estejam alinhados no centro */
     display: inline-flex;
     align-items: center;
-    gap: 5px; /* Espaço entre "Desenvolvido por" e a logo */
+    gap: 5px; 
     transition: opacity 0.3s;
 }
 
@@ -850,36 +995,32 @@ developer-credit-link {
 }
 
 .promova-logo {
-    height: 70px; /* Altura ideal para texto de rodapé */
+    height: 70px; 
     width: auto;
-    /* Ajuste o filtro se a logo for escura sobre um fundo escuro */
+    /* Adicione 'filter: invert(1);' se a logo for escura sobre um fundo escuro */
 
     transition: opacity 0.3s;
 }
 
 /* --- ORDEM DOS ITENS NO RODAPÉ (MOBILE) --- */
 @media (max-width: 768px) {
-    /* 1. Mudar o alinhamento da div P para empilhar itens */
+    /* MANTIDO: Direitos em CIMA, Logo em BAIXO */
     .footer-bottom p {
-        flex-direction: column; /* Empilha os itens verticalmente */
-        gap: 5px; /* Reduz o espaçamento entre itens empilhados */
+        flex-direction: column; 
+        gap: 5px; 
         text-align: center;
     }
 
-    /* 2. Esconder o separador "|" */
+    /* 2. Esconder o separador "|" (Assumindo que ele está em um <span>.separator no HTML) */
     .footer-bottom p .separator {
         display: none;
     }
-
-    /* 3. Definir a ordem dos itens (Default: 0) */
     
-    /* A) Direitos Autorais em CIMA (Order -1 para forçar a subida) */
     .footer-bottom p span:first-child {
         order: -1; 
         margin-bottom: 5px; 
     }
 
-    /* B) Logo Promova em BAIXO (Order 1 para forçar a descida) */
     .footer-bottom p .developer-credit-link {
         order: 1; 
     }
@@ -889,7 +1030,7 @@ developer-credit-link {
 /* --- RESPONSIVIDADE FOOTER (MOBILE) --- */
 @media (max-width: 768px) {
     .footer-grid {
-        grid-template-columns: 1fr; /* Todas as colunas se empilham no mobile */
+        grid-template-columns: 1fr; 
         text-align: center;
     }
     
@@ -913,19 +1054,19 @@ developer-credit-link {
 /* Classe padrão de início: Escondida e pronta para a animação */
 .scroll-reveal {
     opacity: 0;
-    transform: translateY(40px); /* Começa 40px abaixo de sua posição final */
+    transform: translateY(40px); 
     transition: opacity 1s ease-out, transform 0.8s ease-out;
 }
 
 /* Classe aplicada quando a seção entra no viewport (ativa a animação) */
 .scroll-reveal.visible {
     opacity: 1;
-    transform: translateY(0); /* Volta para a posição normal */
+    transform: translateY(0); 
 }
 
 /* Exceção: O conteúdo da Hero Section já tem sua própria animação e não precisa do scroll-reveal */
 #hero .hero-content {
-    opacity: 1; /* Garante que o conteúdo da hero section fique visível imediatamente */
+    opacity: 1; 
     transform: translateY(0);
 }
 
@@ -933,7 +1074,7 @@ developer-credit-link {
 /* --- RESPONSIVIDADE (MOBILE) --- */
 @media (max-width: 768px) {
     .menu-toggle {
-        display: block; /* Mostra o hambúrguer */
+        display: block; 
     }
 
     .nav-list {
@@ -945,14 +1086,13 @@ developer-credit-link {
         background-color: var(--nav-bg);
         flex-direction: column;
         align-items: center;
-        overflow: hidden; /* Esconde quando fechado */
+        overflow: hidden; 
         transition: height 0.4s ease;
         padding: 0;
     }
 
-    /* Quando a classe 'active' for adicionada pelo JS */
     .nav-list.active {
-        height: 600px; /* Altura do menu aberto */
+        height: 600px; 
         padding: 20px 0;
         border-bottom: 1px solid #333;
     }
@@ -972,7 +1112,6 @@ body {
 /* 2. Oculta o cursor customizado dos eventos do mouse */
 #cursor-dot, 
 #cursor-circle {
-    /* CORREÇÃO CRÍTICA: Permite que o clique "passe" pelo cursor customizado */
     pointer-events: none; 
 }
 
@@ -985,7 +1124,6 @@ body {
     position: fixed;
     z-index: 9999; 
     transform: translate(-50%, -50%);
-    /* Removendo transição aqui, pois o movimento é direto via JS */
 }
 
 /* 2. O Círculo (Circle) - O que persegue (Trailing) */
@@ -997,13 +1135,12 @@ body {
     position: fixed;
     z-index: 9998;
     transform: translate(-50%, -50%);
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Transição suave */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out; 
     opacity: 0.8; 
 }
 
 /* --- CORREÇÃO DE USABILIDADE PARA ELEMENTOS CLICÁVEIS --- */
 a, button, .btn-hero, .service-card, .testimonial-card {
-    /* Exibe o cursor padrão de "MÃOZINHA" (pointer) */
     cursor: pointer !important; 
 }
 
