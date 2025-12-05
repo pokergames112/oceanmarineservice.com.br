@@ -7,9 +7,9 @@
 }
 
 :root {
-    --bg-color: #000000;      /* Fundo Preto */
-    --text-color: #ffffff;    /* Texto Branco */
-    --accent-color: #00d4ff;  /* Azul Tech */
+    --bg-color: #035a6b;      /* Fundo Preto */
+    --text-color: #979646;    /* Texto Branco */
+    --accent-color: #e0af48;  /* Azul Tech */
     --nav-bg: rgba(0, 0, 0, 0.95); /* Nav levemente transparente */
 }
 
@@ -310,7 +310,7 @@ nav {
     color: var(--text-color);
     margin-top: 0; 
     
-    background: url('img/Fundo\ hero.JPG') no-repeat center center/cover;
+    background: url('img/fundo-hero.JPG') no-repeat center center/cover;
     background-attachment: fixed;
 }
 
