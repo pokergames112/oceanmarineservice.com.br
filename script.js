@@ -1,4 +1,4 @@
-// Selecionando elementos
+// Selecionando elementos da Navbar e Scroll
 const header = document.getElementById('navbar');
 const mobileMenu = document.getElementById('mobile-menu');
 const navList = document.querySelector('.nav-list');
@@ -6,12 +6,12 @@ const backToTopBtn = document.getElementById('backToTop');
 
 let lastScrollTop = 0;
 
-// 1. Lógica do Menu Hambúrguer (Mobile)
+// --- 1. Lógica do Menu Hambúrguer (Mobile) ---
 mobileMenu.addEventListener('click', () => {
     navList.classList.toggle('active');
 });
 
-// 2. Lógica de Scroll (Navbar some/aparece e Botão Topo)
+// --- 2. Lógica de Scroll (Navbar some/aparece e Botão Topo) ---
 window.addEventListener('scroll', () => {
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -34,12 +34,44 @@ window.addEventListener('scroll', () => {
     } else {
         backToTopBtn.classList.remove('show-btn');
     }
+
+    // C) Executa a verificação do Scroll Reveal (integrado no evento de scroll)
+    checkVisibility();
 });
 
-// 3. Clique suave para voltar ao topo
+// --- 3. Clique suave para voltar ao topo ---
 backToTopBtn.addEventListener('click', () => {
     window.scrollTo({
         top: 0,
         behavior: 'smooth'
     });
 });
+
+
+// --- 4. LÓGICA DE SCROLL REVEAL (Animação das Seções) ---
+
+const revealElements = document.querySelectorAll('.scroll-reveal');
+
+// Função para verificar se o elemento está no viewport
+function checkVisibility() {
+    // Para cada elemento com a classe .scroll-reveal
+    revealElements.forEach(el => {
+        // Pega a posição do topo do elemento em relação ao topo do viewport
+        const elementTop = el.getBoundingClientRect().top;
+        
+        // Define o ponto de gatilho: 80% da altura da tela
+        const windowHeight = window.innerHeight;
+        const revealPoint = windowHeight * 0.80; 
+
+        if (elementTop < revealPoint) {
+            // Adiciona a classe 'visible' para disparar a animação CSS
+            el.classList.add('visible');
+        }
+    });
+}
+
+// Inicializa a verificação na carga da página (para elementos que já estão no topo)
+window.addEventListener('load', checkVisibility);
+
+// Executa a verificação na mudança de tamanho da janela (para responsividade)
+window.addEventListener('resize', checkVisibility);

@@ -477,6 +477,378 @@ nav {
     }
 }
 
+/* --- SECTION 4: SERVIÇOS DETALHADOS --- */
+
+/* 1. Animação de Flutuação (Subir e Descer) */
+@keyframes float-icon {
+    0% {
+        transform: translateY(0); /* Posição inicial */
+    }
+    50% {
+        transform: translateY(-5px); /* Move 5px para cima */
+    }
+    100% {
+        transform: translateY(0); /* Volta para a posição inicial */
+    }
+}
+
+/* Títulos Centrais */
+.text-center-heading {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.text-center-heading h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.subtitle-services {
+    color: #aaa;
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+}
+
+/* Grid Principal */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+    gap: 30px;
+}
+
+/* Estilo do Cartão de Serviço */
+.service-card {
+    background-color: #0d0d0d; /* Fundo levemente mais claro que o body */
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #1a1a1a;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+}
+
+.icon-blue {
+    font-size: 3rem;
+    color: var(--accent-color); /* Ícone na cor Tech Blue */
+    margin-bottom: 20px;
+    display: inline-block; /* Necessário para aplicar a transformação translateY */
+    
+    /* APLICAÇÃO DA ANIMAÇÃO */
+    animation: float-icon 3s ease-in-out infinite;
+}
+
+.service-card h4 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.service-card p {
+    color: #ccc;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.card-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.card-link:hover {
+    color: #fff;
+}
+
+.card-link i {
+    margin-left: 5px;
+    font-size: 0.8rem;
+}
+
+/* --- RESPONSIVIDADE SECTION 4 --- */
+@media (max-width: 992px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 colunas em tablet */
+    }
+}
+
+@media (max-width: 600px) {
+    .services-grid {
+        grid-template-columns: 1fr; /* 1 coluna em mobile */
+    }
+    
+    .text-center-heading h2 {
+        font-size: 2rem;
+    }
+}
+
+/* --- SECTION 5: PROVA SOCIAL / DEPOIMENTOS --- */
+#testimonials {
+    /* Torna a seção um ponto de referência para o overlay */
+    position: relative; 
+    
+    /* IMAGEM DE FUNDO - Substitua 'bg-testimonials.jpg' pela sua imagem */
+    background: url('bg-testimonials.jpg') no-repeat center center/cover;
+    background-attachment: fixed; /* Efeito Parallax suave */
+}
+
+/* Estilo do Overlay (Camada escura) */
+.testimonials-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Deixando-o bem escuro para o texto dos cards se destacar */
+    background: rgba(0, 0, 0, 0.9); 
+    z-index: 1;
+}
+
+/* Garantir que o container de conteúdo fique acima do overlay */
+#testimonials .container {
+    position: relative; 
+    z-index: 2; 
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas iguais */
+    gap: 30px;
+}
+
+.testimonial-card {
+    /* Regras de fundo e posição para se destacar da imagem de fundo */
+    position: relative;
+    z-index: 2;
+    background-color: rgba(13, 13, 13, 0.9); /* Fundo semi-transparente */
+    
+    /* Regras visuais */
+    padding: 35px;
+    border-radius: 8px;
+    border: 1px solid #1a1a1a;
+    transition: border-color 0.3s;
+}
+
+.testimonial-card:hover {
+    border-color: var(--accent-color);
+}
+
+.quote-icon {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 15px;
+    display: block;
+}
+
+.quote-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #ccc;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+.client-name {
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 2px;
+}
+
+.client-title {
+    font-size: 0.85rem;
+    color: var(--accent-color); /* Título na cor Tech Blue */
+}
+
+/* --- RESPONSIVIDADE SECTION 5 --- */
+@media (max-width: 992px) {
+    .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 colunas em tablet */
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonials-grid {
+        grid-template-columns: 1fr; /* 1 coluna em mobile */
+    }
+}
+
+/* --- SECTION 6: CTA FINAL --- */
+#final-cta {
+    background-color: var(--accent-color); /* Fundo Azul Tech para impacto */
+    color: var(--bg-color);
+    padding: 60px 0;
+}
+
+.cta-content {
+    text-align: center;
+}
+
+.cta-content h3 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.cta-content p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: #000; /* Texto preto sobre o fundo azul */
+}
+
+/* Reajuste do Botão Primário para o Fundo Azul */
+.cta-content .btn-hero.primary {
+    background-color: var(--bg-color); /* Fundo preto */
+    color: var(--accent-color); /* Texto azul */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.cta-content .btn-hero.primary:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+
+/* --- RESPONSIVIDADE SECTION 6 --- */
+@media (max-width: 768px) {
+    #final-cta {
+        padding: 40px 0;
+    }
+    .cta-content h3 {
+        font-size: 1.5rem;
+    }
+    .cta-content p {
+        font-size: 1rem;
+    }
+}
+
+/* --- FOOTER --- */
+footer {
+    background-color: #000; /* Preto sólido */
+    color: #ccc;
+    font-size: 0.95rem;
+    padding-top: 50px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr; /* Proporções para as colunas */
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.footer-col h4 {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.footer-logo {
+    margin-bottom: 15px;
+    height: 50px;
+}
+
+/* Estilo para links e contato */
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li,
+.footer-col p {
+    margin-bottom: 10px;
+}
+
+.footer-col a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-col a:hover {
+    color: var(--accent-color);
+}
+
+.footer-col p i {
+    margin-right: 10px;
+    color: var(--accent-color);
+}
+
+/* Links Sociais */
+.social-links {
+    margin-top: 20px;
+}
+
+.social-links a {
+    font-size: 1.2rem;
+    margin-right: 15px;
+    color: #fff;
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Parte de Baixo (Direitos Autorais) */
+.footer-bottom {
+    background-color: #000;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+
+/* --- RESPONSIVIDADE FOOTER (MOBILE) --- */
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr; /* Todas as colunas se empilham no mobile */
+        text-align: center;
+    }
+    
+    .footer-col {
+        margin-bottom: 30px;
+    }
+
+    .footer-col ul {
+        width: max-content;
+        margin: 0 auto;
+    }
+
+    .social-links {
+        justify-content: center;
+        display: flex;
+    }
+}
+
+/* --- ANIMAÇÃO SCROLL REVEAL --- */
+
+/* Classe padrão de início: Escondida e pronta para a animação */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px); /* Começa 40px abaixo de sua posição final */
+    transition: opacity 1s ease-out, transform 0.8s ease-out;
+}
+
+/* Classe aplicada quando a seção entra no viewport (ativa a animação) */
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0); /* Volta para a posição normal */
+}
+
+/* Exceção: O conteúdo da Hero Section já tem sua própria animação e não precisa do scroll-reveal */
+#hero .hero-content {
+    opacity: 1; /* Garante que o conteúdo da hero section fique visível imediatamente */
+    transform: translateY(0);
+}
+
+
 /* --- RESPONSIVIDADE (MOBILE) --- */
 @media (max-width: 768px) {
     .menu-toggle {
@@ -499,7 +871,7 @@ nav {
 
     /* Quando a classe 'active' for adicionada pelo JS */
     .nav-list.active {
-        height: 350px; /* Altura do menu aberto */
+        height: 600px; /* Altura do menu aberto */
         padding: 20px 0;
         border-bottom: 1px solid #333;
     }
