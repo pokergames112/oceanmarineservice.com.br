@@ -108,109 +108,58 @@ nav {
     animation: pulse 2s infinite;
 }
 
-/* --- SELETOR DE IDIOMA (DROPDOWN) --- */
+/* --- NOVO SELETOR DE IDIOMA (FIXO LADO A LADO) --- */
 
-.language-selector {
-    position: absolute; /* Posição absoluta para desktop */
-    right: 30px; 
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    display: flex; /* Garante que os filhos fiquem alinhados */
+.language-selector-fixed {
+    /* Posiciona à direita da nav, perto do menu mobile no desktop */
+    margin-left: auto;
+    display: flex; /* ALINHA AS BANDEIRAS LADO A LADO */
     align-items: center;
+    gap: 15px; /* Espaço entre as bandeiras */
+    padding-right: 20px; /* Espaçamento da lateral */
 }
 
-/* Estilo para a bandeira/gatilho */
-.language-selector .lang-flag.active {
-    opacity: 1; /* Sempre visível */
-    transform: scale(1);
-    /* Adiciona um cursor de mãozinha para indicar que é clicável */
-    cursor: pointer; 
-}
-
-/* Container do Dropdown de Opções */
-.lang-options {
-    position: absolute;
-    top: 100%; /* Inicia logo abaixo do gatilho */
-    right: 0;
-    background-color: var(--nav-bg);
-    border-radius: 5px;
-    overflow: hidden;
-    padding: 5px 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+/* Estilo para cada bandeira individual */
+.lang-flag-fixed {
+    opacity: 1;
     
-    /* Controle de visibilidade/altura */
-    max-height: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    text-decoration: none; /* Remove sublinhado de link */
+    cursor: pointer;
 }
 
-/* Quando o JS adicionar a classe 'open', o dropdown aparece */
-.language-selector.open .lang-options {
-    max-height: 200px; /* Altura suficiente para as bandeiras */
+.lang-flag-fixed:hover,
+.lang-flag-fixed.active {
     opacity: 1;
-    visibility: visible;
 }
 
-.lang-options .lang-flag {
-    display: flex;
-    padding: 8px 15px;
-    opacity: 0.7; /* Opacidade padrão das opções */
-    transition: opacity 0.2s;
-}
-
-.lang-options .lang-flag:hover {
-    opacity: 1;
-    background-color: rgba(0, 212, 255, 0.1);
-}
-
-
-/* --- ESTILOS DE BANDEIRA --- */
-.lang-flag {
-    opacity: 0.5;
-    transition: opacity 0.3s, transform 0.3s;
-}
-
+/* Garante que o ícone da bandeira tenha um bom tamanho */
 .flag-icon {
+    /* Mantendo as regras que você já tinha para o flag-icon */
     height: 1.25rem;
     width: 1.8rem;
     background-size: contain;
     background-position: 50%;
     border-radius: 3px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    display: inline-block;
-    font-style: normal;
+    display: block; /* Mudei para block para garantir que o link funcione como um bloco */
 }
 
-/* Estilo do ícone de seta (Chevron) */
-.language-caret {
-    font-size: 0.7rem; /* Tamanho pequeno e sutil */
-    color: #fff; /* ESTA É A COR! */
-    margin-left: 8px; 
-    transition: transform 0.3s ease;
+/* Correção de Responsividade para o nav-list no desktop */
+@media (min-width: 993px) {
+    /* Remove o padding-right excessivo que empurrava a nav-list */
+    .nav-list {
+        padding-right: 0; 
+    }
 }
 
-/* --- RESPONSIVIDADE (MOBILE) --- */
+/* Correção de Responsividade para Mobile */
 @media (max-width: 992px) {
-    /* Mobile: Seletor de Idioma entre Logo e Hambúrguer */
-    .language-selector {
-        position: static; 
-        margin-left: auto; 
+    /* Garante que as bandeiras fixas fiquem visíveis ao lado do logo e do hambúrguer */
+    .language-selector-fixed {
+        /* Garante que ele fique entre o logo e o menu mobile */
         margin-right: 15px; 
-        top: auto;
-        transform: none;
     }
-    
-    /* Ajuste para garantir que o dropdown mobile não afete outros elementos */
-    .lang-options {
-        /* Posição relativa ao viewport, ou use fixed se quiser fora do fluxo */
-        position: absolute; 
-        right: 20px; 
-        top: 75px; 
-        /* Altera a direção para o mobile para aparecer à direita da nav */
-        /* width: max-content; */ 
-    }
+}
 
     /* Configuração do menu mobile */
     .menu-toggle {
@@ -250,7 +199,6 @@ nav {
         bottom: 90px;
         right: 10px;
     }
-}
 
 
 /* --- SEÇÕES ABAIXO (SEM ALTERAÇÕES SIGNIFICATIVAS) --- */
