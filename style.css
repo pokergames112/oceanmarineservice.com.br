@@ -728,6 +728,21 @@ nav {
 }
 
 
+/* --- CORREÇÃO DO CURSOR SOBRE A CTA --- */
+
+/* Quando a SECTION #final-cta está em hover, ela força a cor do cursor para branco,
+   garantindo o contraste com o fundo azul (var(--accent-color)). */
+#final-cta:hover ~ #cursor-dot, 
+#final-cta:hover ~ #cursor-circle {
+    border-color: #000000; 
+    opacity: 1;
+}
+
+#final-cta:hover ~ #cursor-dot {
+    background-color: #000000;
+}
+
+
 /* --- RESPONSIVIDADE SECTION 6 --- */
 @media (max-width: 768px) {
     #final-cta {
@@ -894,4 +909,63 @@ footer {
     .nav-list li {
         margin: 15px 0;
     }
+}
+
+/* --- CURSOR CUSTOMIZADO (Ponto e Círculo) --- */
+
+/* Esconde o cursor padrão em todo o site */
+body {
+    cursor: none !important; 
+}
+
+/* Oculta o cursor padrão apenas sobre os elementos do cursor customizado (opcional, mas bom) */
+#cursor-dot, 
+#cursor-circle {
+    pointer-events: none; /* Garante que o cursor não interfira nos cliques */
+}
+
+/* 1. O Ponto (Dot) - O mais rápido */
+#cursor-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-color); /* Azul Tech */
+    border-radius: 50%;
+    position: fixed; /* Fixado na tela para seguir o mouse */
+    z-index: 9999; 
+    transform: translate(-50%, -50%); /* Centraliza o ponto */
+    transition: transform 0.1s ease-out; /* Transição muito rápida, para o dot seguir de perto */
+}
+
+/* 2. O Círculo (Circle) - O que persegue (Trailing) */
+#cursor-circle {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--accent-color);
+    border-radius: 50%;
+    position: fixed;
+    z-index: 9998; /* Fica abaixo do ponto */
+    transform: translate(-50%, -50%); /* Centraliza o círculo */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Transição mais lenta para o efeito de perseguição */
+    
+    /* Inicialmente um pouco transparente */
+    opacity: 0.8; 
+}
+
+/* Efeito Hover: O círculo reage a elementos clicáveis (opcional, mas recomendado) */
+a, button, .btn-hero, .service-card, .testimonial-card {
+    cursor: none !important; /* Esconde o cursor padrão em elementos clicáveis */
+}
+
+a:hover ~ #cursor-circle,
+button:hover ~ #cursor-circle,
+.btn-hero:hover ~ #cursor-circle {
+    transform: translate(-50%, -50%) scale(1.5); /* Aumenta o círculo */
+    opacity: 1;
+    background-color: rgba(0, 212, 255, 0.2); /* Fundo sutil */
+}
+
+a:hover ~ #cursor-dot,
+button:hover ~ #cursor-dot,
+.btn-hero:hover ~ #cursor-dot {
+    background-color: #fff; /* O ponto fica branco/mais claro */
 }

@@ -54,15 +54,13 @@ const revealElements = document.querySelectorAll('.scroll-reveal');
 
 // Função para verificar se o elemento está no viewport
 function checkVisibility() {
+    const windowHeight = window.innerHeight;
+    const revealPoint = windowHeight * 0.80; 
+
     // Para cada elemento com a classe .scroll-reveal
     revealElements.forEach(el => {
-        // Pega a posição do topo do elemento em relação ao topo do viewport
         const elementTop = el.getBoundingClientRect().top;
         
-        // Define o ponto de gatilho: 80% da altura da tela
-        const windowHeight = window.innerHeight;
-        const revealPoint = windowHeight * 0.80; 
-
         if (elementTop < revealPoint) {
             // Adiciona a classe 'visible' para disparar a animação CSS
             el.classList.add('visible');
@@ -72,6 +70,46 @@ function checkVisibility() {
 
 // Inicializa a verificação na carga da página (para elementos que já estão no topo)
 window.addEventListener('load', checkVisibility);
-
 // Executa a verificação na mudança de tamanho da janela (para responsividade)
 window.addEventListener('resize', checkVisibility);
+
+
+// --- 5. LÓGICA DO CURSOR CUSTOMIZADO (DOT-AND-CIRCLE) ---
+
+const cursorDot = document.getElementById('cursor-dot');
+const cursorCircle = document.getElementById('cursor-circle');
+
+let mouseX = 0, mouseY = 0;
+let circleX = 0, circleY = 0;
+const smoothingFactor = 0.2; // Controla a suavidade da perseguição
+
+// 1. Capturar a posição do mouse e mover o DOT imediatamente
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // Move o DOT imediatamente
+    cursorDot.style.left = `${mouseX}px`;
+    cursorDot.style.top = `${mouseY}px`;
+});
+
+// 2. Animar o Círculo com transição suave (Loop de animação)
+function animateCircle() {
+    // Calcula a diferença entre a posição do mouse e a posição atual do círculo
+    const deltaX = mouseX - circleX;
+    const deltaY = mouseY - circleY;
+
+    // Ajusta a posição do círculo em direção ao mouse, usando o smoothingFactor
+    circleX += deltaX * smoothingFactor;
+    circleY += deltaY * smoothingFactor;
+
+    // Aplica a nova posição ao elemento
+    cursorCircle.style.left = `${circleX}px`;
+    cursorCircle.style.top = `${circleY}px`;
+
+    // Solicita o próximo frame de animação
+    requestAnimationFrame(animateCircle);
+}
+
+// Inicia o loop de animação para o círculo
+animateCircle();
