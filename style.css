@@ -102,7 +102,7 @@ nav {
 /* --- WHATSAPP FLUTUANTE --- */
 .whatsapp-float {
     position: fixed;
-    bottom: 70px;
+    bottom: 75px;
     left: 20px; /* Lado esquerdo ou direito, conforme preferir */
     background-color: #25d366;
     color: white;
@@ -121,7 +121,7 @@ nav {
 /* --- BOTÃO VOLTAR AO TOPO --- */
 .back-to-top {
     position: fixed;
-    bottom: 70px;
+    bottom: 75px;
     right: 20px;
     background-color: var(--accent-color);
     color: var(--bg-color);
@@ -414,7 +414,7 @@ nav {
     padding: 100px 0;
     
     /* IMAGEM DE FUNDO - Substitua 'bg-vision.jpg' pela sua imagem */
-    background: url('img/Fundo\ section\ 3.jpeg') no-repeat center center/cover;
+    background: url('img/img\ Section\ 2.jpeg') no-repeat center center/cover;
 }
 
 /* Camada escura sobre a imagem (Overlay) */
@@ -781,7 +781,7 @@ footer {
 
 .footer-logo {
     margin-bottom: 15px;
-    height: 50px;
+    height: 100px;
 }
 
 /* Estilo para links e contato */
@@ -826,12 +826,35 @@ footer {
 }
 
 /* Parte de Baixo (Direitos Autorais) */
-.footer-bottom {
-    background-color: #000;
-    padding: 15px 0;
-    text-align: center;
-    font-size: 0.8rem;
-    color: #666;
+.footer-bottom p {
+    /* Garante que o texto de direitos autorais e o link estejam alinhados */
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    gap: 8px; /* Espaçamento entre os elementos (texto, |, link) */
+}
+
+developer-credit-link {
+    color: inherit; /* Herda a cor do texto do footer (geralmente branco) */
+    text-decoration: none; /* Remove o sublinhado */
+    
+    /* Garante que o texto e a logo dentro do link estejam alinhados no centro */
+    display: inline-flex;
+    align-items: center;
+    gap: 5px; /* Espaço entre "Desenvolvido por" e a logo */
+    transition: opacity 0.3s;
+}
+
+.developer-credit-link:hover {
+    opacity: 0.8;
+}
+
+.promova-logo {
+    height: 70px; /* Altura ideal para texto de rodapé */
+    width: auto;
+    /* Ajuste o filtro se a logo for escura sobre um fundo escuro */
+
+    transition: opacity 0.3s;
 }
 
 
