@@ -102,7 +102,7 @@ nav {
 /* --- WHATSAPP FLUTUANTE --- */
 .whatsapp-float {
     position: fixed;
-    bottom: 20px;
+    bottom: 70px;
     left: 20px; /* Lado esquerdo ou direito, conforme preferir */
     background-color: #25d366;
     color: white;
@@ -121,7 +121,7 @@ nav {
 /* --- BOTÃO VOLTAR AO TOPO --- */
 .back-to-top {
     position: fixed;
-    bottom: 20px;
+    bottom: 70px;
     right: 20px;
     background-color: var(--accent-color);
     color: var(--bg-color);
@@ -300,14 +300,22 @@ nav {
 }
 
 .section-tag {
-    color: var(--accent-color); /* Azul Tech */
-    font-size: 0.85rem;
+    /* Visual */
+    background-color: rgba(0, 212, 255, 0.1); /* Fundo sutilmente azul (10% de opacidade) */
+    border: 1px solid var(--accent-color); /* Borda fina azul para definição */
+    border-radius: 50px; /* Deixa o retângulo bem arredondado (estilo pill) */
+    
+    /* Conteúdo */
+    color: var(--accent-color); /* Texto na cor Azul Tech */
+    font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 10px;
-    display: block;
+    padding: 7px 15px; /* Preenchimento interno para dar espaço */
+    margin-bottom: 20px; /* Espaço abaixo da tag para o H2 */
+    display: inline-block; /* Garante que o padding funcione e ele não ocupe 100% da largura */
 }
+
 
 .text-block h2 {
     font-size: 2.5rem;
@@ -430,14 +438,21 @@ nav {
 
 /* Tag para contraste */
 .section-tag-light {
-    color: #fff;
+    /* Visual */
+    background-color: rgba(255, 255, 255, 0.1); /* Fundo sutilmente branco */
+    border: 1px solid #ffffff; /* Borda branca */
+    border-radius: 50px;
+    
+    /* Conteúdo */
+    color: #fff; /* Texto branco */
     font-size: 0.8rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 15px;
-    display: block;
-    opacity: 0.8;
+    padding: 7px 15px;
+    margin-bottom: 25px; /* Ajuste o espaçamento conforme necessário */
+    display: inline-block;
+    opacity: 1; /* Remove a opacidade baixa que estava antes */
 }
 
 .vision-content h3 {
