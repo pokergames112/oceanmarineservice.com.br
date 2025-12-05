@@ -1,1178 +1,155 @@
-/* --- RESET E VARIÁVEIS --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-:root {
-    --bg-color: #000000;      /* Fundo Preto */
-    --text-color: #ffffff;    /* Texto Branco */
-    --accent-color: #00d4ff;  /* Azul Tech */
-    --nav-bg: rgba(0, 0, 0, 0.95); /* Nav levemente transparente */
-}
-
-body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* --- NAVBAR ESTILO GERAL --- */
-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background-color: var(--nav-bg);
-    z-index: 1000;
-    padding: 15px 0;
-    transition: top 0.4s ease-in-out; 
-}
-
-/* Classe para esconder a nav */
-header.hide-nav {
-    top: -100px; 
-}
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo img {
-    height: 70px; 
-    display: block;
-}
-
-/* --- MENU DESKTOP VS MOBILE --- */
-.nav-list {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-/* Ajuste Desktop: Mover nav-list para esquerda */
-@media (min-width: 993px) {
-    .nav-list {
-        margin-left: auto;
-        /* Espaço para o seletor de idioma com padding reduzido */
-        padding-right: 70px; 
-    }
-}
-
-.nav-list a {
-    text-decoration: none;
-    color: var(--text-color);
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: color 0.3s;
-}
-
-.nav-list a:hover {
-    color: var(--accent-color);
-}
-
-.menu-toggle {
-    display: none; 
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--text-color);
-}
-
-/* --- BOTÃO CONTATO (Estilo Tech) --- */
-.btn-contato {
-    background-color: var(--text-color);
-    color: var(--bg-color) !important;
-    padding: 8px 20px;
-    border-radius: 5px;
-    font-weight: bold !important;
-    transition: transform 0.2s;
-}
-
-/* --- ANIMAÇÃO DE PULSAR (Piscando lindamente) --- */
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(0, 212, 255, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0); }
-}
-
-.pulse-button {
-    animation: pulse 2s infinite;
-}
-
-/* --- SELETOR DE IDIOMA (DROPDOWN) --- */
-
-.language-selector {
-    position: absolute; /* Posição absoluta para desktop */
-    right: 30px; 
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    display: flex; /* Garante que os filhos fiquem alinhados */
-    align-items: center;
-}
-
-/* Estilo para a bandeira/gatilho */
-.language-selector .lang-flag.active {
-    opacity: 1; /* Sempre visível */
-    transform: scale(1);
-    /* Adiciona um cursor de mãozinha para indicar que é clicável */
-    cursor: pointer; 
-}
-
-/* Container do Dropdown de Opções */
-.lang-options {
-    position: absolute;
-    top: 100%; /* Inicia logo abaixo do gatilho */
-    right: 0;
-    background-color: var(--nav-bg);
-    border-radius: 5px;
-    overflow: hidden;
-    padding: 5px 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+document.addEventListener('DOMContentLoaded', function() {
+    // ---------------------------------------------
+    // 1. Selecionando Elementos
+    // ---------------------------------------------
+    const header = document.getElementById('navbar');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navList = document.querySelector('.nav-list');
+    const backToTopBtn = document.getElementById('backToTop');
+    const scrollThreshold = 100;
     
-    /* Controle de visibilidade/altura */
-    max-height: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-}
+    // Elementos do Dropdown de Idioma
+    const langToggle = document.getElementById('lang-toggle');
+    const langDropdown = document.getElementById('language-dropdown');
 
-/* Quando o JS adicionar a classe 'open', o dropdown aparece */
-.language-selector.open .lang-options {
-    max-height: 200px; /* Altura suficiente para as bandeiras */
-    opacity: 1;
-    visibility: visible;
-}
+    // Elementos do Cursor Customizado
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorCircle = document.getElementById('cursor-circle');
 
-.lang-options .lang-flag {
-    display: flex;
-    padding: 8px 15px;
-    opacity: 0.7; /* Opacidade padrão das opções */
-    transition: opacity 0.2s;
-}
+    let lastScrollTop = 0;
 
-.lang-options .lang-flag:hover {
-    opacity: 1;
-    background-color: rgba(0, 212, 255, 0.1);
-}
-
-
-/* --- ESTILOS DE BANDEIRA --- */
-.lang-flag {
-    opacity: 0.5;
-    transition: opacity 0.3s, transform 0.3s;
-}
-
-.flag-icon {
-    height: 1.25rem;
-    width: 1.8rem;
-    background-size: contain;
-    background-position: 50%;
-    border-radius: 3px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    display: inline-block;
-    font-style: normal;
-}
-
-/* Estilo do ícone de seta (Chevron) */
-.language-caret {
-    font-size: 0.7rem; /* Tamanho pequeno e sutil */
-    color: #fff; /* ESTA É A COR! */
-    margin-left: 8px; 
-    transition: transform 0.3s ease;
-}
-
-/* --- RESPONSIVIDADE (MOBILE) --- */
-@media (max-width: 992px) {
-    /* Mobile: Seletor de Idioma entre Logo e Hambúrguer */
-    .language-selector {
-        position: static; 
-        margin-left: auto; 
-        margin-right: 15px; 
-        top: auto;
-        transform: none;
+    // ---------------------------------------------
+    // 2. Lógica do Menu Hambúrguer (Mobile)
+    // ---------------------------------------------
+    if (mobileMenu && navList) {
+        mobileMenu.addEventListener('click', function() {
+            navList.classList.toggle('active');
+            
+            // Fecha o dropdown de idioma se o menu for aberto
+            if (langDropdown && langDropdown.classList.contains('open')) {
+                langDropdown.classList.remove('open');
+            }
+        });
     }
+
+    // ---------------------------------------------
+    // 3. Lógica do Seletor de Idioma Dropdown (Novo Recurso)
+    // ---------------------------------------------
+    if (langToggle && langDropdown) {
+        langToggle.addEventListener('click', function(e) {
+            e.preventDefault(); // Evita que o link atualize a página imediatamente
+            e.stopPropagation(); // Impede que o clique seja detectado pelo 'document'
+            
+            // Alterna a classe 'open' no elemento language-selector
+            langDropdown.classList.toggle('open');
+            
+            // Fecha o menu mobile se o dropdown de idioma for aberto
+            if (navList && navList.classList.contains('active')) {
+                navList.classList.remove('active');
+            }
+        });
+        
+        // Fechar o dropdown de idioma se o usuário clicar fora dele
+        document.addEventListener('click', function(e) {
+            if (!langDropdown.contains(e.target)) {
+                langDropdown.classList.remove('open');
+            }
+        });
+    }
+
+    // ---------------------------------------------
+    // 4. Lógica de Scroll (Navbar some/aparece e Botão Topo)
+    // ---------------------------------------------
+    window.addEventListener('scroll', function() {
+        let st = window.scrollY || document.documentElement.scrollTop;
+
+        // A) Comportamento da Navbar (Esconder ao rolar para baixo)
+        if (st > lastScrollTop && st > scrollThreshold) {
+            header.classList.add('hide-nav');
+            // Fecha o menu mobile e o dropdown ao rolar
+            if (navList) navList.classList.remove('active');
+            if (langDropdown) langDropdown.classList.remove('open');
+        } else if (st < lastScrollTop) {
+            header.classList.remove('hide-nav');
+        }
+        lastScrollTop = st <= 0 ? 0 : st;
+
+        // B) Botão Voltar ao Topo
+        if (st > 300) {
+            backToTopBtn.classList.add('show-btn');
+        } else {
+            backToTopBtn.classList.remove('show-btn');
+        }
+    });
+
+    // ---------------------------------------------
+    // 5. Clique suave para voltar ao topo
+    // ---------------------------------------------
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // ---------------------------------------------
+    // 6. LÓGICA DE SCROLL REVEAL (Usando IntersectionObserver para melhor performance)
+    // ---------------------------------------------
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Opcional: Desobservar após a primeira aparição para otimizar
+                // observer.unobserve(entry.target); 
+            }
+        });
+    }, {
+        threshold: 0.1 // O objeto se torna visível quando 10% dele está na tela
+    });
+
+    document.querySelectorAll('.scroll-reveal').forEach(section => {
+        observer.observe(section);
+    });
     
-    /* Ajuste para garantir que o dropdown mobile não afete outros elementos */
-    .lang-options {
-        /* Posição relativa ao viewport, ou use fixed se quiser fora do fluxo */
-        position: absolute; 
-        right: 20px; 
-        top: 75px; 
-        /* Altera a direção para o mobile para aparecer à direita da nav */
-        /* width: max-content; */ 
+    // Dispara uma verificação inicial para elementos já visíveis no carregamento
+    window.onload = () => document.querySelectorAll('.scroll-reveal').forEach(section => observer.observe(section));
+
+
+    // ---------------------------------------------
+    // 7. LÓGICA DO CURSOR CUSTOMIZADO (DOT-AND-CIRCLE)
+    // ---------------------------------------------
+    if (cursorDot && cursorCircle && window.innerWidth > 992) {
+        let mouseX = 0, mouseY = 0;
+        let circleX = 0, circleY = 0;
+        const smoothingFactor = 0.2;
+
+        // 1. Capturar a posição do mouse e mover o DOT imediatamente
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Move o DOT imediatamente
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+        });
+
+        // 2. Animar o Círculo com transição suave (Loop de animação)
+        function animateCircle() {
+            const deltaX = mouseX - circleX;
+            const deltaY = mouseY - circleY;
+
+            circleX += deltaX * smoothingFactor;
+            circleY += deltaY * smoothingFactor;
+
+            cursorCircle.style.left = `${circleX}px`;
+            cursorCircle.style.top = `${circleY}px`;
+
+            requestAnimationFrame(animateCircle);
+        }
+
+        // Inicia o loop de animação
+        animateCircle();
     }
-
-    /* Configuração do menu mobile */
-    .menu-toggle {
-        display: block; 
-    }
-
-    .nav-list {
-        position: absolute;
-        top: 70px;
-        right: 0;
-        width: 100%;
-        height: 0;
-        background-color: var(--nav-bg);
-        flex-direction: column;
-        align-items: center;
-        overflow: hidden; 
-        transition: height 0.4s ease;
-        padding: 0;
-    }
-
-    .nav-list.active {
-        height: 600px; 
-        padding: 20px 0;
-        border-bottom: 1px solid #333;
-    }
-
-    .nav-list li {
-        margin: 15px 0;
-    }
-    
-    /* Outras correções de responsividade... */
-    .whatsapp-float {
-        bottom: 90px;
-        left: 10px; 
-    }
-    .back-to-top {
-        bottom: 90px;
-        right: 10px;
-    }
-}
-
-
-/* --- SEÇÕES ABAIXO (SEM ALTERAÇÕES SIGNIFICATIVAS) --- */
-/* (O restante do seu CSS original segue aqui...) */
-/* --- WHATSAPP FLUTUANTE --- */
-.whatsapp-float {
-    position: fixed;
-    bottom: 135px;
-    left: 20px; /* Lado esquerdo ou direito, conforme preferir */
-    background-color: #25d366;
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    text-decoration: none;
-    z-index: 1001;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-}
-
-/* --- BOTÃO VOLTAR AO TOPO --- */
-.back-to-top {
-    position: fixed;
-    bottom: 135px;
-    right: 20px;
-    background-color: var(--accent-color);
-    color: var(--bg-color);
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    z-index: 1001;
-    opacity: 0; 
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.back-to-top.show-btn {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* --- HERO SECTION --- */
-#hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center; 
-    justify-content: center; 
-    text-align: center;
-    color: var(--text-color);
-    margin-top: 0; 
-    
-    background: url('img/Fundo\ hero.JPG') no-repeat center center/cover;
-    background-attachment: fixed;
-}
-
-/* Camada escura sobre a imagem (Overlay) */
-.hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.5));
-    z-index: 1;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2; 
-    max-width: 800px;
-    padding: 20px;
-    animation: fadeInUp 1s ease-out; 
-}
-
-/* Badge decorativa */
-.badge-tech {
-    background-color: rgba(0, 212, 255, 0.1);
-    color: var(--accent-color);
-    padding: 5px 15px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border: 1px solid var(--accent-color);
-    display: inline-block;
-    margin-bottom: 20px;
-}
-
-/* Tipografia Hero */
-#hero h1 {
-    font-size: 3.5rem;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    font-weight: 700;
-}
-
-#hero p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    color: #cccccc;
-    line-height: 1.6;
-}
-
-/* Botões da Hero */
-.hero-btns {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap; 
-}
-
-.btn-hero {
-    text-decoration: none;
-    padding: 15px 35px;
-    border-radius: 5px;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-/* Botão Primário (Azul Tech) */
-.btn-hero.primary {
-    background-color: var(--accent-color);
-    color: #000;
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
-}
-
-.btn-hero.primary:hover {
-    background-color: #fff;
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
-}
-
-/* Botão Secundário (Transparente com borda) */
-.btn-hero.secondary {
-    border: 2px solid #fff;
-    color: #fff;
-}
-
-.btn-hero.secondary:hover {
-    background-color: #fff;
-    color: #000;
-}
-
-/* Animação de Entrada */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* --- RESPONSIVIDADE HERO (MOBILE) --- */
-@media (max-width: 768px) {
-    #hero h1 {
-        font-size: 2.2rem; 
-    }
-
-    #hero p {
-        font-size: 1rem;
-    }
-
-    .hero-btns {
-        flex-direction: column; 
-        gap: 15px;
-    }
-
-    .btn-hero {
-        width: 100%; 
-        text-align: center;
-    }
-}
-
-/* --- UTILITÁRIOS GERAIS --- */
-.section-padding {
-    padding: 80px 0; 
-}
-
-/* --- SEÇÃO O QUE FAZEMOS / SOLUÇÕES --- */
-.solutions-grid {
-    display: flex;
-    gap: 50px; 
-    align-items: center;
-    text-align: left;
-}
-
-/* 1. Bloco de Texto */
-.text-block {
-    flex: 1; 
-    max-width: 550px;
-}
-
-.section-tag {
-    /* Visual */
-    background-color: rgba(0, 212, 255, 0.1); 
-    border: 1px solid var(--accent-color); 
-    border-radius: 50px; 
-    
-    /* Conteúdo */
-    color: var(--accent-color); 
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 7px 15px; 
-    margin-bottom: 20px; 
-    display: inline-block; 
-}
-
-
-.text-block h2 {
-    font-size: 2.5rem;
-    line-height: 1.3;
-    margin-bottom: 20px;
-    font-weight: 700;
-}
-
-.text-block p {
-    color: #ccc;
-    line-height: 1.7;
-    margin-bottom: 15px;
-}
-
-/* 2. Bloco de Imagem */
-.image-block {
-    flex: 1; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.image-block img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px; 
-    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1); 
-}
-
-/* Botão CTA na Seção */
-.btn-cta-section {
-    display: inline-flex;
-    align-items: center;
-    margin-top: 15px;
-    padding: 12px 25px;
-    background-color: var(--accent-color); 
-    color: var(--bg-color);
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.btn-cta-section:hover {
-    background-color: #fff;
-    transform: translateY(-2px);
-}
-
-.btn-cta-section i {
-    margin-left: 10px;
-}
-
-
-/* --- RESPONSIVIDADE PARA MOBILE --- */
-@media (max-width: 992px) {
-    .solutions-grid {
-        flex-direction: column; 
-        text-align: center;
-    }
-
-    .text-block, .image-block {
-        max-width: 100%; 
-    }
-
-    .text-block {
-        order: 2; 
-    }
-    
-    .image-block {
-        order: 1; 
-        margin-bottom: 30px;
-    }
-    
-    .text-block h2 {
-        font-size: 2rem;
-    }
-    
-    .btn-cta-section {
-        display: block; 
-        width: 80%;
-        margin: 15px auto 0;
-    }
-}
-
-/* --- SECTION 3: VISÃO / CHAMADA DE VALOR --- */
-#vision {
-    position: relative;
-    width: 100%;
-    min-height: 400px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--text-color);
-    padding: 100px 0;
-    
-    background: url('img/Fundo\ 2.jpeg') no-repeat center center/cover;
-}
-
-/* Camada escura sobre a imagem (Overlay) */
-.vision-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.75); 
-    z-index: 1;
-}
-
-.vision-content {
-    position: relative;
-    z-index: 2;
-    max-width: 900px;
-    padding: 0 20px;
-}
-
-/* Tag para contraste */
-.section-tag-light {
-    /* Visual */
-    background-color: rgba(255, 255, 255, 0.1); 
-    border: 1px solid #ffffff; 
-    border-radius: 50px;
-    
-    /* Conteúdo */
-    color: #fff; 
-    font-size: 0.8rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    padding: 7px 15px;
-    margin-bottom: 25px; 
-    display: inline-block;
-    opacity: 1; 
-}
-
-.vision-content h3 {
-    font-size: 2.5rem;
-    line-height: 1.3;
-    margin-bottom: 25px;
-    font-weight: 700;
-}
-
-.vision-content p {
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Reutilizando o estilo do botão primário (pulse-button) */
-.vision-content .primary {
-    /* Não precisa de estilo adicional, o código da Hero já se aplica */
-}
-
-
-/* --- RESPONSIVIDADE SECTION 3 (MOBILE) --- */
-@media (max-width: 768px) {
-    #vision {
-        min-height: 300px; 
-        padding: 60px 0;
-    }
-    
-    .vision-content h3 {
-        font-size: 1.8rem; 
-    }
-
-    .vision-content p {
-        font-size: 1rem;
-    }
-}
-
-/* --- SECTION 4: SERVIÇOS DETALHADOS --- */
-
-/* 1. Animação de Flutuação (Subir e Descer) */
-@keyframes float-icon {
-    0% {
-        transform: translateY(0); 
-    }
-    50% {
-        transform: translateY(-5px); 
-    }
-    100% {
-        transform: translateY(0); 
-    }
-}
-
-/* Títulos Centrais */
-.text-center-heading {
-    text-align: center;
-    margin-bottom: 60px;
-}
-
-.text-center-heading h2 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-.subtitle-services {
-    color: #aaa;
-    max-width: 700px;
-    margin: 0 auto;
-    font-size: 1.1rem;
-}
-
-/* Grid Principal */
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 30px;
-}
-
-/* Estilo do Cartão de Serviço */
-.service-card {
-    background-color: #0d0d0d; 
-    padding: 30px;
-    border-radius: 8px;
-    text-align: center;
-    border: 1px solid #1a1a1a;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.service-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-color);
-    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
-}
-
-.icon-blue {
-    font-size: 3rem;
-    color: var(--accent-color); 
-    margin-bottom: 20px;
-    display: inline-block; 
-    
-    /* APLICAÇÃO DA ANIMAÇÃO */
-    animation: float-icon 3s ease-in-out infinite;
-}
-
-.service-card h4 {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-    font-weight: 600;
-}
-
-.service-card p {
-    color: #ccc;
-    font-size: 0.95rem;
-    margin-bottom: 20px;
-}
-
-.card-link {
-    color: var(--accent-color);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-.card-link:hover {
-    color: #fff;
-}
-
-.card-link i {
-    margin-left: 5px;
-    font-size: 0.8rem;
-}
-
-/* --- RESPONSIVIDADE SECTION 4 --- */
-@media (max-width: 992px) {
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr); 
-    }
-}
-
-@media (max-width: 600px) {
-    .services-grid {
-        grid-template-columns: 1fr; 
-    }
-    
-    .text-center-heading h2 {
-        font-size: 2rem;
-    }
-}
-
-/* --- SECTION 5: PROVA SOCIAL / DEPOIMENTOS --- */
-#testimonials {
-    position: relative; 
-    
-    background: url('img/navio\ tecnologia.JPG') no-repeat center center/cover;
-    background-attachment: fixed; 
-}
-
-/* Estilo do Overlay (Camada escura) */
-.testimonials-bg-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9); 
-    z-index: 1;
-}
-
-/* Garantir que o container de conteúdo fique acima do overlay */
-#testimonials .container {
-    position: relative; 
-    z-index: 2; 
-}
-
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 30px;
-}
-
-.testimonial-card {
-    position: relative;
-    z-index: 2;
-    background-color: rgba(13, 13, 13, 0.9); 
-    
-    padding: 35px;
-    border-radius: 8px;
-    border: 1px solid #1a1a1a;
-    transition: border-color 0.3s;
-}
-
-.testimonial-card:hover {
-    border-color: var(--accent-color);
-}
-
-.quote-icon {
-    font-size: 2rem;
-    color: var(--accent-color);
-    margin-bottom: 15px;
-    display: block;
-}
-
-.quote-text {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #ccc;
-    margin-bottom: 25px;
-    font-style: italic;
-}
-
-.client-name {
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: 2px;
-}
-
-.client-title {
-    font-size: 0.85rem;
-    color: var(--accent-color); 
-}
-
-/* --- RESPONSIVIDADE SECTION 5 --- */
-@media (max-width: 992px) {
-    .testimonials-grid {
-        grid-template-columns: repeat(2, 1fr); 
-    }
-}
-
-@media (max-width: 768px) {
-    .testimonials-grid {
-        grid-template-columns: 1fr; 
-    }
-}
-
-/* --- SECTION 6: CTA FINAL --- */
-#final-cta {
-    background-color: var(--accent-color); 
-    color: var(--bg-color);
-    padding: 60px 0;
-}
-
-.cta-content {
-    text-align: center;
-}
-
-.cta-content h3 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
-
-.cta-content p {
-    font-size: 1.1rem;
-    margin-bottom: 30px;
-    color: #000; 
-}
-
-/* Reajuste do Botão Primário para o Fundo Azul */
-.cta-content .btn-hero.primary {
-    background-color: var(--bg-color); 
-    color: var(--accent-color); 
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-}
-
-.cta-content .btn-hero.primary:hover {
-    background-color: #333;
-    color: #fff;
-}
-
-
-/* --- CORREÇÃO DO CURSOR SOBRE A CTA --- */
-
-/* Quando a SECTION #final-cta está em hover, ela força a cor do cursor para branco,
-    garantindo o contraste com o fundo azul (var(--accent-color)). */
-#final-cta:hover ~ #cursor-dot, 
-#final-cta:hover ~ #cursor-circle {
-    border-color: #000000; 
-    opacity: 1;
-}
-
-#final-cta:hover ~ #cursor-dot {
-    background-color: #000000;
-}
-
-
-/* --- RESPONSIVIDADE SECTION 6 --- */
-@media (max-width: 768px) {
-    #final-cta {
-        padding: 40px 0;
-    }
-    .cta-content h3 {
-        font-size: 1.5rem;
-    }
-    .cta-content p {
-        font-size: 1rem;
-    }
-}
-
-/* --- FOOTER --- */
-footer {
-    background-color: #000; 
-    color: #ccc;
-    font-size: 0.95rem;
-    padding-top: 50px;
-}
-
-.footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1.5fr; 
-    gap: 40px;
-    padding-bottom: 40px;
-    border-bottom: 1px solid #1a1a1a;
-}
-
-.footer-col h4 {
-    color: var(--text-color);
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-.footer-logo {
-    margin-bottom: 15px;
-    height: 100px;
-}
-
-/* Estilo para links e contato */
-.footer-col ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-col ul li,
-.footer-col p {
-    margin-bottom: 10px;
-}
-
-.footer-col a {
-    color: #ccc;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-col a:hover {
-    color: var(--accent-color);
-}
-
-.footer-col p i {
-    margin-right: 10px;
-    color: var(--accent-color);
-}
-
-/* Links Sociais */
-.social-links {
-    margin-top: 20px;
-}
-
-.social-links a {
-    font-size: 1.2rem;
-    margin-right: 15px;
-    color: #fff;
-}
-
-.social-links a:hover {
-    color: var(--accent-color);
-}
-
-/* Parte de Baixo (Direitos Autorais) */
-.footer-bottom p {
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    gap: 8px; 
-}
-
-.developer-credit-link {
-    color: inherit; 
-    text-decoration: none; 
-    
-    display: inline-flex;
-    align-items: center;
-    gap: 5px; 
-    transition: opacity 0.3s;
-}
-
-.developer-credit-link:hover {
-    opacity: 0.8;
-}
-
-.promova-logo {
-    height: 70px; 
-    width: auto;
-    /* Adicione 'filter: invert(1);' se a logo for escura sobre um fundo escuro */
-
-    transition: opacity 0.3s;
-}
-
-/* --- ORDEM DOS ITENS NO RODAPÉ (MOBILE) --- */
-@media (max-width: 768px) {
-    /* MANTIDO: Direitos em CIMA, Logo em BAIXO */
-    .footer-bottom p {
-        flex-direction: column; 
-        gap: 5px; 
-        text-align: center;
-    }
-
-    /* 2. Esconder o separador "|" (Assumindo que ele está em um <span>.separator no HTML) */
-    .footer-bottom p .separator {
-        display: none;
-    }
-    
-    .footer-bottom p span:first-child {
-        order: -1; 
-        margin-bottom: 5px; 
-    }
-
-    .footer-bottom p .developer-credit-link {
-        order: 1; 
-    }
-}
-
-
-/* --- RESPONSIVIDADE FOOTER (MOBILE) --- */
-@media (max-width: 768px) {
-    .footer-grid {
-        grid-template-columns: 1fr; 
-        text-align: center;
-    }
-    
-    .footer-col {
-        margin-bottom: 30px;
-    }
-
-    .footer-col ul {
-        width: max-content;
-        margin: 0 auto;
-    }
-
-    .social-links {
-        justify-content: center;
-        display: flex;
-    }
-}
-
-/* --- ANIMAÇÃO SCROLL REVEAL --- */
-
-/* Classe padrão de início: Escondida e pronta para a animação */
-.scroll-reveal {
-    opacity: 0;
-    transform: translateY(40px); 
-    transition: opacity 1s ease-out, transform 0.8s ease-out;
-}
-
-/* Classe aplicada quando a seção entra no viewport (ativa a animação) */
-.scroll-reveal.visible {
-    opacity: 1;
-    transform: translateY(0); 
-}
-
-/* Exceção: O conteúdo da Hero Section já tem sua própria animação e não precisa do scroll-reveal */
-#hero .hero-content {
-    opacity: 1; 
-    transform: translateY(0);
-}
-
-
-/* --- RESPONSIVIDADE (MOBILE) --- */
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: block; 
-    }
-
-    .nav-list {
-        position: absolute;
-        top: 70px;
-        right: 0;
-        width: 100%;
-        height: 0;
-        background-color: var(--nav-bg);
-        flex-direction: column;
-        align-items: center;
-        overflow: hidden; 
-        transition: height 0.4s ease;
-        padding: 0;
-    }
-
-    .nav-list.active {
-        height: 600px; 
-        padding: 20px 0;
-        border-bottom: 1px solid #333;
-    }
-
-    .nav-list li {
-        margin: 15px 0;
-    }
-}
-
-/* --- CURSOR CUSTOMIZADO (Ponto e Círculo) --- */
-
-/* 1. Esconde o cursor padrão em todo o site (Seta invisível) */
-body {
-    cursor: default !important; 
-}
-
-/* 2. Oculta o cursor customizado dos eventos do mouse */
-#cursor-dot, 
-#cursor-circle {
-    pointer-events: none; 
-}
-
-/* 1. O Ponto (Dot) - O mais rápido */
-#cursor-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--accent-color);
-    border-radius: 50%;
-    position: fixed;
-    z-index: 9999; 
-    transform: translate(-50%, -50%);
-}
-
-/* 2. O Círculo (Circle) - O que persegue (Trailing) */
-#cursor-circle {
-    width: 30px;
-    height: 30px;
-    border: 1px solid var(--accent-color);
-    border-radius: 50%;
-    position: fixed;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out; 
-    opacity: 0.8; 
-}
-
-/* --- CORREÇÃO DE USABILIDADE PARA ELEMENTOS CLICÁVEIS --- */
-a, button, .btn-hero, .service-card, .testimonial-card {
-    cursor: pointer !important; 
-}
-
-/* Efeito Hover: O círculo reage a elementos clicáveis (animação) */
-a:hover ~ #cursor-circle,
-button:hover ~ #cursor-circle,
-.btn-hero:hover ~ #cursor-circle,
-.service-card:hover ~ #cursor-circle,
-.testimonial-card:hover ~ #cursor-circle {
-    transform: translate(-50%, -50%) scale(1.5); 
-    opacity: 1;
-    background-color: rgba(0, 212, 255, 0.2); 
-}
-
-a:hover ~ #cursor-dot,
-button:hover ~ #cursor-dot,
-.btn-hero:hover ~ #cursor-dot,
-.service-card:hover ~ #cursor-dot,
-.testimonial-card:hover ~ #cursor-dot {
-    background-color: #fff;
-}
-
-/* --- CORREÇÃO: DESATIVA CURSOR CUSTOMIZADO NO MOBILE/TABLET --- */
-@media (max-width: 992px) {
-    /* Garante que o cursor customizado seja ocultado */
-    #cursor-dot, 
-    #cursor-circle {
-        display: none !important;
-    }
-    
-    /* Muito Importante: Restaura o cursor padrão do sistema para toque */
-    body {
-        cursor: default !important;
-    }
-}
+});
