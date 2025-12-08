@@ -204,6 +204,8 @@ nav {
     display: block; /* Mudei para block para garantir que o link funcione como um bloco */
 }
 
+/* As classes flag-icon-br, flag-icon-us e flag-icon-es devem ser definidas pelo seu CSS de biblioteca de bandeiras. */
+
 /* Correção de Responsividade para o nav-list no desktop */
 @media (min-width: 993px) {
     /* Remove o padding-right excessivo que empurrava a nav-list */
@@ -260,9 +262,6 @@ nav {
         right: 10px;
     }
 
-
-/* --- SEÇÕES ABAIXO (SEM ALTERAÇÕES SIGNIFICATIVAS) --- */
-/* (O restante do seu CSS original segue aqui...) */
 /* --- WHATSAPP FLUTUANTE --- */
 .whatsapp-float {
     position: fixed;
