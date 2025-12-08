@@ -449,6 +449,10 @@ nav {
         height: 90px; /* Reduz o tamanho da logo no mobile */
         margin-bottom: 40px;
     }
+
+    #hero {
+        margin-top: 100px; 
+    }
     
     #hero h1 {
         font-size: 2.2rem; 
